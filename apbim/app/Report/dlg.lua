@@ -1,6 +1,7 @@
 _ENV = module(...,ap.adv)
 
 require'luacom'
+require'lfs'
 
 local iup = require"iuplua"
 local iupcontrol = require"iupluacontrols"
@@ -11,7 +12,8 @@ local Iup = require'sys.iup'
 local Dir = require'sys.dir'
 local Tab = require'sys.table'
 
-local Pos = 'D:\\demo\\apbim\\'
+-- local Pos = 'D:\\demo\\apbim\\'
+local Pos = lfs.currentdir()..'/'
 local Path = 'cfg/report/'
 local Exname = 'xls'
 local DotExname = '.'..Exname
