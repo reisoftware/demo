@@ -39,7 +39,7 @@ local Dlg = iup.dialog{
 local fields_ = {
 	{
 		Width = 100;
-		Head = "Excel";
+		Head = "Name";
 		Text = function(k,v,s)
 			return string.sub(k,1,-2-string.len(v));
 		end
@@ -49,8 +49,8 @@ local fields_ = {
 		Head = "Remark";
 		Text = function(k,v,s)
 			local name = string.sub(k,1,-2-string.len(v));
-			-- return require(Path..name).Remark
-			return ""
+			return require(Path..name).readme();
+			-- return ""
 		end
 	};
 };
@@ -115,8 +115,8 @@ function pop(arg)
 		local book = xls.Workbooks:Open(Pos..Path..name..DotExname);
 		local sheet = book.Sheets(1)
 		
-		local tempf = reload(Path..name);
-		local tbook = tempf(arg.src);
+		local start = reload(Path..name).start;
+		local tbook = start(arg.src);
 		
 		for isheet,vsheet in ipairs(tbook) do
 			for krow,vrow in pairs(vsheet) do

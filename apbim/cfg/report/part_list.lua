@@ -70,7 +70,16 @@ return {
 };
 --]]
 
-return function(dat)
+local pairs = pairs
+local type = type
+
+_ENV = module(...)
+
+function readme()
+	return "Section,Mat,Lenth,Weight and Price.";
+end
+
+function start(dat)
 	local book = {{from=1}};
 	local sheet = book[1];
 	local row,col = 3,1;
