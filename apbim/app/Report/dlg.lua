@@ -1,6 +1,5 @@
 _ENV = module(...,ap.adv)
 
-require'luacom'
 require'lfs'
 
 local iup = require"iuplua"
@@ -12,7 +11,6 @@ local Iup = require'sys.iup'
 local Dir = require'sys.dir'
 local Tab = require'sys.table'
 
--- local Pos = 'D:\\demo\\apbim\\'
 local Pos = lfs.currentdir()..'/'
 local Path = 'cfg/report/'
 local Exname = 'xls'
@@ -109,38 +107,15 @@ function pop(arg)
 	local function on_export()
 		local dstfile = Iup.save_file_dlg{extension=Exname;directory='D:/';}
 		if not dstfile or dstfile=='' then return end
-		
-	
 		local name = Mat.get_selection_lin_text{mat=mat_,col=1};
-		local xls = luacom.CreateObject("Excel.Application")
-		xls.Visble = true;
-		local book = xls.Workbooks:Open(Pos..Path..name..DotExname);
-		local sheet = book.Sheets(1)
+		if not name or name =='' then return end
 		
-		local start = reload(Path..name).start;
-		local tbook = start(arg.src);
-		
-		for isheet,vsheet in ipairs(tbook) do
-			for krow,vrow in pairs(vsheet) do
-				if type(vrow)=='table' then
-					for kcol,vcol in pairs(vrow) do
-						-- trace_out(vcol..',');
-						sheet.Cells(krow,kcol).Value2 = vcol;
-					end
-					-- trace_out('\n');
-				else
-					-- trace_out('copy from; '..vrow..'\n');
-				end
-			end
+		if reload(Path..name).start{
+			dat = arg.src,
+			template = Pos..Path..name..DotExname,
+			dstfile = dstfile} then
+			os.execute('start " " '..dstfile..'\n');
 		end
-		
-		
-		-- sheet.Cells(3,3).Value2 = "abc"
-		
-		book:SaveAs(dstfile);
-		book:Close(0)
-		xls:Quit(0)
-		os.execute('start " " '..dstfile..'\n');
 	end
 
 	local function on_select_lin(i)

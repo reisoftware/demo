@@ -70,32 +70,52 @@ return {
 };
 --]]
 
+require'luacom'
+local luacom = luacom
+local require = require
 local pairs = pairs
 local type = type
 
 _ENV = module(...)
 
+
 function readme()
 	return "Section,Mat,Lenth,Weight and Price.";
 end
 
-function start(dat)
-	local book = {{from=1}};
-	local sheet = book[1];
+--arg={dat=,template=,dstfile=}
+function start(arg)
+	local xls = luacom.CreateObject("Excel.Application")
+	if not xls then return end
+	xls.Visble = true;
+	local book = xls.Workbooks:Open(arg.template);
+	if not book then return end
+	local sheet = book.Sheets(1)
+	if not sheet then return end
 	local row,col = 3,1;
-	for k,v in pairs(dat) do
-		sheet[row] = {};
-		local cols = sheet[row];
-		cols[2] = v.Section or "";
-		cols[3] = v.Mat or "";
-		cols[4] = v.Count or 1;
-		cols[5] = type(v.get_length)=='function' and v:get_length() or 0;
-		cols[6] = type(v.get_length)=='function' and v:get_length() * (v.Count or 0) or 0;
-		cols[7] = v.Weight or 0;
-		cols[8] = (v.Weight or 0) * (v.Count or 0);
-		cols[9] = v.Price or 0;
-		cols[10] = (v.Price or 0) * (v.Count or 0);
+	for k,v in pairs(arg.dat) do
+		sheet.Cells(row,1).Value2 = row - 2;
+		sheet.Cells(row,2).Value2 = v.Section or "";
+		sheet.Cells(row,3).Value2 = v.Mat or "";
+		sheet.Cells(row,4).Value2 = v.Count or 1;
+		sheet.Cells(row,5).Value2 = type(v.get_length)=='function' and v:get_length() or 0;
+		sheet.Cells(row,6).Value2 = type(v.get_length)=='function' and v:get_length() * (v.Count or 0) or 0;
+		sheet.Cells(row,7).Value2 = v.Weight or 0;
+		sheet.Cells(row,8).Value2 = (v.Weight or 0) * (v.Count or 0);
+		sheet.Cells(row,9).Value2 = v.Price or 0;
+		sheet.Cells(row,10).Value2 = (v.Price or 0) * (v.Count or 0);
 		row = row + 1;
 	end
-	return book;
+	book:SaveAs(arg.dstfile);
+	book:Close(0)
+	xls:Quit(0)
+	return true;
 end
+
+
+		
+		
+	   	
+		
+
+		
