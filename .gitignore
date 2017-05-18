@@ -1,3 +1,4 @@
 
+apbim/*.bmp
 apbim/app/Revit/textures/*.bmp
 apbim/cfg/projects_path.lua

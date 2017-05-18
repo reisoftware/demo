@@ -79,7 +79,7 @@ function show(str,title)
 	dlg_show_ = true;
 	text_.title = str or text_.title;
 	dlg_.title = title or dlg_.title;
-	dlg_:show();
+	-- dlg_:show();
 	-- iup_.LoopStep();
 end
 
