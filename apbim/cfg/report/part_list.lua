@@ -71,7 +71,7 @@ return {
 --]]
 
 require'luacom'
-local luacom = luacom
+local COM = luacom
 local require = require
 local pairs = pairs
 local type = type
@@ -85,7 +85,7 @@ end
 
 --arg={dat=,template=,dstfile=}
 function start(arg)
-	local xls = luacom.CreateObject("Excel.Application")
+	local xls = COM.CreateObject("Excel.Application")
 	if not xls then return end
 	xls.Visble = true;
 	local book = xls.Workbooks:Open(arg.template);
