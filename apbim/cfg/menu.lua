@@ -299,6 +299,10 @@ return  {
   	 	 	 	name = "Restart";
   	 	 	 	keyword ='AP.Tools.Restart';
   	 	 	};
+  	 	 	{
+  	 	 	 	name = "Template";
+  	 	 	 	keyword ='AP.Tools.Template';
+  	 	 	};
   	 	};
   	};
  	{

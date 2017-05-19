@@ -10,6 +10,7 @@ return  {
 	'app.Steel.main';
 	'app.Model.main';
 	'app.Report.main';
+	'app.Template.main';
 	'app.Work.main';
 	'app.sketchup.main';
 	'app.Revit.main';
