@@ -1,6 +1,6 @@
 return  {
 	'app.BIM.main';
-	'app.Family.mian';
+	'app.Family.main';
 	'app.Project.main';
 	'app.View.main';
 	'app.Show.main';

@@ -7,8 +7,8 @@ local Action = require'app.Family.function'
 
 function on_load()
 	MENU.add{
-		keyword = 'AP.Family.New';
-		action = Action.New;
+		keyword = 'AP.Family.Lib';
+		action = Action.Lib;
 		view = true;
 		frame = true;
 	}
