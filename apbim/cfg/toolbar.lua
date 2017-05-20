@@ -139,7 +139,7 @@ return {
 		{
 			name = 'Report';
 			keyword = 'AP.Report.All',
-			image = 33;
+			image = 34;
 		};
 		{
 			name = 'About';
@@ -181,14 +181,9 @@ return {
 			image = 31;
 		};
 		{
-			name = 'Show Database';
-			keyword = 'AP.Work.Database.Show';
+			name = 'Family Lib';
+			keyword = 'AP.Family.Lib';
 			image = 33;
-		};
-		{
-			name = 'Find Database';
-			keyword = 'AP.Work.Database.Find';
-			image = 34;
 		};
 	};
 };
