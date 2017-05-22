@@ -7,8 +7,8 @@ return  {
 	'app.Select.main';
 	'app.Edit.main';
 	'app.Snap.main';
-	'app.Graphics.main';
-	'app.Steel.main';
+	-- 'app.Graphics.main';
+	-- 'app.Steel.main';
 	'app.Model.main';
 	'app.Report.main';
 	'app.Work.main';
