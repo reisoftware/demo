@@ -205,6 +205,10 @@ return  {
   	 	 	 	name = "Lib";
 				keyword ='AP.Family.Lib';
   	 	 	};
+  	 	 	{
+  	 	 	 	name = "Add";
+				keyword ='AP.Family.Add';
+  	 	 	};
   	 	};
   	};
  	{

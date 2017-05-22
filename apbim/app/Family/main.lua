@@ -12,6 +12,12 @@ function on_load()
 		view = true;
 		frame = true;
 	}
+	MENU.add{
+		keyword = 'AP.Family.Add';
+		action = Action.Add;
+		view = true;
+		frame = true;
+	}
 end
 
 

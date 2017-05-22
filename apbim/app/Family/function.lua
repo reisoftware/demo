@@ -13,5 +13,8 @@ function Lib()
 	Dlg.pop();
 end
 
+function Add()
+	Dlg.pop();
+end
 
 
