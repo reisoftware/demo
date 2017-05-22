@@ -22,6 +22,7 @@ function load()
 	menu_.update();
 	toolbar_.update();
 	workspace_.update();
+	workspace_.display();
 end
 
 function init()

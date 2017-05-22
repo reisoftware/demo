@@ -6,6 +6,7 @@ local MENU = require'sys.menu'
 local Action = require'app.Family.function'
 
 function on_load()
+	Action.Lib();
 	MENU.add{
 		keyword = 'AP.Family.Lib';
 		action = Action.Lib;
@@ -16,8 +17,8 @@ function on_load()
 		keyword = 'AP.Family.Add';
 		action = Action.Add;
 		view = true;
-		frame = true;
 	}
 end
+
 
 
