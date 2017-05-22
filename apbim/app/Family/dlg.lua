@@ -4,12 +4,13 @@ local reload = reload
 local require = require
 local string = string
 local table = table
+require'lfs'
+local lfs = lfs
 local trace_out = trace_out
 local type = type
 
 _ENV = module(...)
 
-require'lfs'
 local iup = require"iuplua"
 local iupcontrol = require"iupluacontrols"
 
@@ -21,6 +22,7 @@ local Tab = require'sys.table'
 local Tree = require'sys.workspace.tree.iupTree'.Class
 
 local Pos = lfs.currentdir()..'/'
+-- local Pos = '/'
 local Path = 'cfg/Family/Lib/'
 local Exname = 'lua'
 local DotExname = '.'..Exname
@@ -35,7 +37,7 @@ local Dlg = iup.frame{
 	alignment = "aRight";
 	rastersize = "480X620";
 	iup.vbox{
-		iup.hbox{tree_};
+		iup.hbox{tree_:get_tree()};
 	};
 }
 
@@ -44,10 +46,7 @@ function pop()
 	local function init_tree()
 		trace_out('family\n');
 		tree_:init_path_data(
-			Pos..Path,
-			function() 
-				return true
-			end
+			Pos..Path
 		);
 	end
 
