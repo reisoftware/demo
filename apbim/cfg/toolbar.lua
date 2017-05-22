@@ -183,6 +183,11 @@ return {
 		{
 			name = 'Family Lib';
 			keyword = 'AP.Family.Lib';
+			image = 34;
+		};
+		{
+			name = 'Add Selected Family';
+			keyword = 'AP.Family.Add';
 			image = 33;
 		};
 	};
