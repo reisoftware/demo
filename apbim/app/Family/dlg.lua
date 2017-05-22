@@ -9,6 +9,7 @@ local type = type
 
 _ENV = module(...)
 
+require'lfs'
 local iup = require"iuplua"
 local iupcontrol = require"iupluacontrols"
 
@@ -17,14 +18,16 @@ local Mat = require'sys.api.iup.matrix'
 local Iup = require'sys.iup'
 local Dir = require'sys.dir'
 local Tab = require'sys.table'
+local Tree = require'sys.workspace.tree.iupTree'.Class
 
-local Path = 'cfg/Family/Lib'
+local Pos = lfs.currentdir()..'/'
+local Path = 'cfg/Family/Lib/'
 local Exname = 'lua'
 local DotExname = '.'..Exname
 
 
-local mat_ = iup.matrix{READONLY="YES",rastersize="350X480"};
-local start_ = iup.button{title="Start",rastersize="60X"};
+-- local mat_ = iup.matrix{READONLY="YES",rastersize="350X480"};
+local tree_ = Tree:new();
 
 local Dlg = iup.frame{
 	title = "Family Lib";
@@ -32,41 +35,24 @@ local Dlg = iup.frame{
 	alignment = "aRight";
 	rastersize = "480X620";
 	iup.vbox{
-		iup.hbox{mat_};
-		iup.hbox{iup.fill{},start_};
+		iup.hbox{tree_};
 	};
 }
 
-local fields_ = {
-	{
-		Width = 100;
-		Head = "Name";
-		Text = function(k,v,s)
-			return string.sub(k,1,-2-string.len(v));
-		end
-	};
-	{
-		Width = 150;
-		Head = "Remark";
-		Text = function(k,v,s)
-			local name = string.sub(k,1,-2-string.len(v));
-			return reload(Path..'/'..name).readme();
-		end
-	};
-};
-
 function pop()
 
-	local function init_mat()
-		local all = Dir.get_name_list(Path);
-		if type(all)~='table' then return end
-		dat = Tab.filter(all,function(k,v,t) if v==Exname then return true end end)
-		Mat.init{mat=mat_,fields=fields_,dat=dat,minlin=20,sortv=function(k) return tostring(k) end};
-		Dlg:show();
+	local function init_tree()
+		trace_out('family\n');
+		tree_:init_path_data(
+			Pos..Path,
+			function() 
+				return true
+			end
+		);
 	end
 
 	local function init()
-		init_mat();
+		init_tree();
 		Dlg:show();
 	end
 	local function on_start()
@@ -76,11 +62,10 @@ function pop()
 	end
 
 	local function on_select_lin(i)
-		Mat.select_lin{mat=mat_,lin=i}
+		-- Mat.select_lin{mat=mat_,lin=i}
 	end
 
-	function start_:action()on_start()end
-	function mat_:click_cb(lin,col,str)on_select_lin()end
+	-- function mat_:click_cb(lin,col,str)on_select_lin()end
 	
 	init();
 	-- on_select_lin(1);
