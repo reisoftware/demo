@@ -46,7 +46,11 @@ function pop()
 	local function init_tree()
 		trace_out('family\n');
 		tree_:init_path_data(
-			Pos..Path
+			Pos..Path,
+			function(name,path)
+				if string.sub(name,-4,-1)~='.lua' then return false end
+				return reload(path..string.sub(name,1,-5)).on_readme();
+			end
 		);
 	end
 
@@ -74,7 +78,8 @@ function pop()
 end
 
 function get_selection()
-	return Pos..Path..'Graphics/Line';
+	-- return Pos..Path..'Assistant/Line';
+	return Pos..Path..'Structure/Beam';
 end
 
 

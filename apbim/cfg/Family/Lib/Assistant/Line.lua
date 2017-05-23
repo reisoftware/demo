@@ -109,7 +109,7 @@ function Class:on_draw_diagram()
 end
 
 function on_readme()
-	
+	return {title="Line",icon=Class.Classname..'.bmp',tip="Assistant Line"}
 end
 
 function on_create(arg)
