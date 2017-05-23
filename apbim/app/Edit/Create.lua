@@ -30,7 +30,6 @@ local function run(class,scene,pts)
 	local ent = class:new();
 	-- if ent.init then ent:init() end
 	ent:on_create(pts);
-	ent:update_data();
 	mgr_.add(ent);
 	mgr_.draw(ent);
 	mgr_.update();

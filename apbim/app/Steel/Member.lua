@@ -16,72 +16,12 @@ function Class:on_edit()
 	require'app.Steel.Member_dlg'.pop();
 end
 
----[[
-function Class:on_write_info()
-	-- self:init_info();
-	-- self:add_info_text("Classname",self.Classname);
-	self:add_info_text("Type",self.Type);
-	-- self:add_info_text("NO.",self.assembly_number);
-	-- self:add_info_text("PartNO.",self.part_number);
-	-- self:add_info_text("Material.",self.material);
-	self:add_info_text("Section",self.Section);
-	self:add_info_text("Length",self:get_length());
-	self:add_info_text("Beta",(self.Beta or 0));
-	self:add_info_text("Alignment",self:get_alignment_text());
-	-- self:add_info_text("Date",self:get_date_text());
-	-- self:add_info_text("Color",require"sys.text".color(self.Color));
-	-- for i,v in ipairs(self:get_pts()) do
-		-- self:add_info_text("Point"..i,require"sys.text".array(self:get_pt(i)));
-	-- end
-end
---]]
 
---[[
-function Class:on_write_info()
-	-- self:set_info{};
-	self:add_info{Classname = self.Classname};
-	self:add_info{Type = self.Type};
-	for i,v in ipairs(self:get_pts()) do
-		self:add_info{["Point"..i]=require"sys.text".array(self:get_pt(i))};
-	end
-	self:add_info{Length = self:get_length()};
-	self:add_info{Section = self.Section};
-	self:add_info{Beta = (self.Beta or 0)};
-	self:add_info{Alignment = self:get_alignment_text()};
-	self:add_info{Date = self:get_date_text()};
-end
---]]
 
-function Class:on_draw_diagram()
-	self:set_shape_diagram(require"app.Steel.shape".draw_member(self,"diagram"));
+function Class:on_draw(arg)
+	if not self.Points[2] then self.Points[2] = {self.Points[1].x,self.Points[1].y,self.Points[1].z+3300} end
+	self:set_shape_rendering(require"app.Steel.shape".draw_member(self,arg.mode));
 end
-
-function Class:on_draw_wireframe()
-	self:set_shape_wireframe(require"app.Steel.shape".draw_member(self,"wireframe"));
-end
-
-function Class:on_draw_rendering()
-	self:set_shape_rendering(require"app.Steel.shape".draw_member(self,"rendering"));
-end
-
-function Class:on_draw_text()
-	local cr = self:get_color_gl();
-	local pt1 = self:get_pt(1);
-	local pt2 = self:get_pt(2);
-	self:set_shape_text{
-		surfaces = {
-			{
-				points = {
-					{cr.r,cr.g,cr.b,1,1,(pt1.x+pt2.x)/2,(pt1.y+pt2.y)/2,(pt1.z+pt2.z)/2};
-				};
-				texts = {
-					{ptno=1,r=1-cr.r,g=1-cr.g,b=1-cr.b,str=self.Section,font="System",h=20,size=64};
-				};
-			};
-		};
-	};
-end
-
 
 function Class:get_alignment_text()
 	local align = type(self.Alignment)=="table" and self.Alignment or {};

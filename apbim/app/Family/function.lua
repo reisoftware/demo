@@ -16,7 +16,7 @@ function Lib()
 end
 
 function Add()
-	reload(Dlg.get_selection()).on_create{};
+	require(Dlg.get_selection()).on_create{};
 end
 
 

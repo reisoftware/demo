@@ -81,7 +81,7 @@ end
 
 
 Class = {
-	Classname = 'cfg/Family/Assistant/Line';
+	Classname = 'cfg/Family/Lib/Assistant/Line';
 	-- Points = {[1],[2]};
 	-- Color = {0,0,255};
 };
@@ -91,18 +91,20 @@ function Class:on_edit()
 	pop();
 end
 
-function Class:on_draw_diagram()
+function Class:on_draw(arg)
 	local cr = GEO.Color:new(self.Color or {0,0,255}):get_gl()
 	local pt1 = self:get_pt(1);
 	local pt2 = self:get_pt(2);
-	self:set_shape_diagram{
-		surfaces = {
-			{
-				points = {
-					{cr.r,cr.g,cr.b,1,1,pt1.x,pt1.y,pt1.z};
-					{cr.r,cr.g,cr.b,1,1,pt2.x,pt2.y,pt2.z};
+	return {
+		Diagram = {
+			surfaces = {
+				{
+					points = {
+						{cr.r,cr.g,cr.b,1,1,pt1.x,pt1.y,pt1.z};
+						{cr.r,cr.g,cr.b,1,1,pt2.x,pt2.y,pt2.z};
+					};
+					lines = {{1,2}};
 				};
-				lines = {{1,2}};
 			};
 		};
 	};
@@ -113,6 +115,6 @@ function on_readme()
 end
 
 function on_create(arg)
-	CMD.set{command=CREATE.new{class=Class:new()}};
+	CMD.set{command=CREATE.new{class=Class:new()}:set_count(2)};
 end
 

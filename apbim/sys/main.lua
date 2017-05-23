@@ -33,5 +33,6 @@ end
 
 load();
 init();
+mgr_.new_scene();
 -- require"sys.dock".create();
 

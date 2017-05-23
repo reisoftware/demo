@@ -6,8 +6,6 @@ Rendering = "Rendering";
 
 Class = {
 	Classname = "sys/Entity";
-	-- Info = {Text={k=v,...},Order={k,...},Show={k=true,...}};
-	-- Shape = {Diagram=,Wireframe=,Rendering=,Text=};
 	-- Mode = "Diagram"/"Wireframe"/"Rendering";
 	-- Show_Text = nil;
 	-- Hidden = true;
@@ -18,111 +16,11 @@ require"sys.Item".Class:met(Class);
 
 --callback
 
-function Class:on_write_info()end
-function Class:on_draw()end
-function Class:on_draw_diagram()end
-function Class:on_draw_wireframe()end
-function Class:on_draw_rendering()end
-
---------------------
-
-function Class:update_data()
-	if type(self)~="table" then return self end
-	self:on_write_info();
-	self:on_draw_diagram();
-	self:on_draw_wireframe();
-	self:on_draw_rendering();
-	return self;
-end
-
---------Info--------
-
---[[
-
-function Class:set_info(t)
-	if type(self)~="table" then return self end
-	self.Info = t;
-	require"sys.Item".Class.modify(self);
-	return self;
-end
-
-function Class:init_info()
-	if type(self)~="table" then return self end
-	self.Info = {};
-	require"sys.Item".Class.modify(self);
-	return self;
-end
-
-function Class:add_info(t)
-	if type(self)~="table" then return self end
-	if type(self.Info)~="table" then self.Info={} end
-	if type(self.Info.Text)~="table" then self.Info.Text={} end
-	table.insert(self.Info.Text,t);
-	require"sys.Item".Class.modify(self);
-	return self;
-end
-
---]]
-
-
-function Class:get_info()
-	if type(self)~="table" then return nil end
-	if type(self.Info)=="table" then return self.Info end
-	if type(self.on_write_info)=="function" then self:on_write_info() end
-	return self.Info;
-end
-
-function Class:add_info(t)
-	if type(self)~="table" then return self end
-	for k,v in pairs(t) do
-		self:add_info_text(k,v);
-	end
-	return self;
-end
-
-function Class:add_info_text(k,text)
-	if type(self)~="table" then return self end
-	if type(self.Info)~="table" then self.Info={} end
-	if type(self.Info.Text)~="table" then self.Info.Text={} end
-	if type(self.Info.Order)~="table" then self.Info.Order={} end
-	self.Info.Text[k] = text;
-	table.insert(self.Info.Order,k);
-	require"sys.Item".Class.modify(self);
-	return self;
-end
-
-function Class:get_info_text()
-	if type(self)~="table" then return nil end
-	if (type(self.Info)~="table" or type(self.Info.Text)~="table") and type(self.on_write_info)=="function" then self:on_write_info() end
-	if type(self.Info)~="table" then return {} end
-	if type(self.Info.Text)~="table" then return {} end
-	return self.Info.Text;
-end
-
-function Class:set_info_show(k,show)
-	if type(self)~="table" then return nil end
-	if type(self.Info)~="table" then self.Info = {} end
-	if type(self.Info.Show)~="table" then self.Info.Show = {} end
-	self.Info.Show[k] = show;
-	require"sys.Item".Class.modify(self);
-	return self;
-end
-
-function Class:get_info_show()
-	if type(self)~="table" then return nil end
-	-- if type(self.Info)~="table" or type(self.Info.Show)~="table" then self:on_write_info() end
-	if type(self.Info)~="table" then return {} end
-	if type(self.Info.Show)~="table" then return {} end
-	return self.Info.Show;
-end
-
-function Class:get_info_order()
-	if type(self)~="table" then return nil end
-	-- if type(self.Info)~="table" or type(self.Info.Show)~="table" then self:on_write_info() end
-	if type(self.Info)~="table" then return {} end
-	if type(self.Info.Order)~="table" then return {} end
-	return self.Info.Order;
-end
+-- arg={mode=Diagram/Wireframe/Rendering}
+function Class:on_draw(arg)end
+-- function Class:on_draw_diagram()end
+-- function Class:on_draw_wireframe()end
+-- function Class:on_draw_rendering()end
 
 
 --------Hidden--------
@@ -215,80 +113,14 @@ end
 
 --------Shape--------
 
-function Class:set_shape(t)
-	if type(self)~="table" then return self end
-	self.Shape = t;
-	require"sys.Item".Class.modify(self);
-	return self;
-end
-
-function Class:get_shape()
+function Class:get_shape(arg)
 	if type(self)~="table" then return nil end
-	return self.Shape;
+	if type(self.on_draw)=="function" then return self:on_draw(arg) end
 end
 
-function Class:set_shape_diagram(t)
-	if type(self)~="table" then return self end
-	if type(self.Shape)~="table" then self.Shape = {} end
-	self.Shape.Diagram = t;
-	require"sys.Item".Class.modify(self);
-	return self;
-end
-
-function Class:get_shape_diagram()
+function Class:get_placement()
 	if type(self)~="table" then return nil end
-	if type(self.Shape)=="table" and type(self.Shape.Diagram)=="table" then return self.Shape.Diagram end
-	if type(self.on_draw_diagram)=="function" then self:on_draw_diagram() end
-	if type(self.Shape)=="table" and type(self.Shape.Diagram)=="table" then return self.Shape.Diagram end
-	return nil;
-end
-
-function Class:set_shape_wireframe(t)
-	if type(self)~="table" then return self end
-	if type(self.Shape)~="table" then self.Shape = {} end
-	self.Shape.Wireframe = t;
-	require"sys.Item".Class.modify(self);
-	return self;
-end
-
-function Class:get_shape_wireframe()
-	if type(self)~="table" then return nil end
-	if type(self.Shape)=="table" and type(self.Shape.Wireframe)=="table" then return self.Shape.Wireframe end
-	if type(self.on_draw_wireframe)=="function" then self:on_draw_wireframe() end
-	if type(self.Shape)=="table" and type(self.Shape.Wireframe)=="table" then return self.Shape.Wireframe end
-	return nil;
-end
-
-function Class:set_shape_rendering(t)
-	if type(self)~="table" then return self end
-	if type(self.Shape)~="table" then self.Shape = {} end
-	self.Shape.Rendering = t;
-	require"sys.Item".Class.modify(self);
-	return self;
-end
-
-function Class:get_shape_rendering()
-	if type(self)~="table" then return nil end
-	if type(self.Shape)=="table" and type(self.Shape.Rendering)=="table" then return self.Shape.Rendering end
-	if type(self.on_draw_rendering)=="function" then self:on_draw_rendering() end
-	if type(self.Shape)=="table" and type(self.Shape.Rendering)=="table" then return self.Shape.Rendering end
-	return nil;
-end
-
-function Class:set_shape_text(t)
-	if type(self)~="table" then return self end
-	if type(self.Shape)~="table" then self.Shape = {} end
-	self.Shape.Text = t;
-	require"sys.Item".Class.modify(self);
-	return self;
-end
-
-function Class:get_shape_text()
-	if type(self)~="table" then return nil end
-	if type(self.Shape)=="table" and type(self.Shape.Text)=="table" then return self.Shape.Text end
-	if type(self.on_draw_text)=="function" then self:on_draw_text() end
-	if type(self.Shape)=="table" and type(self.Shape.Text)=="table" then return self.Shape.Text end
-	return nil;
+	if type(self.on_place)=="function" then return self:on_place() end
 end
 
 --------Color--------

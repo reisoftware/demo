@@ -4,8 +4,6 @@ local reload = reload
 local require = require
 local string = string
 local table = table
-require'lfs'
-local lfs = lfs
 local trace_out = trace_out
 local type = type
 
@@ -21,18 +19,16 @@ local Dir = require'sys.dir'
 local Tab = require'sys.table'
 local Tree = require'sys.workspace.tree.iupTree'.Class
 
--- local Pos = lfs.currentdir()..'/'
 local Pos = ''
 local Path = 'cfg/Family/Lib/'
 local Exname = 'lua'
 local DotExname = '.'..Exname
 
 
--- local mat_ = iup.matrix{READONLY="YES",rastersize="350X480"};
 local tree_ = Tree:new();
 
 local Dlg = iup.frame{
-	title = "Family Lib";
+	-- title = "Family Lib";
 	margin = "5x5";
 	alignment = "aRight";
 	rastersize = "480X620";
@@ -44,12 +40,16 @@ local Dlg = iup.frame{
 function pop()
 
 	local function init_tree()
-		trace_out('family\n');
 		tree_:init_path_data(
 			Pos..Path,
 			function(name,path)
 				if string.sub(name,-4,-1)~='.lua' then return false end
-				return reload(path..string.sub(name,1,-5)).on_readme();
+				local file = path..string.sub(name,1,-5);
+				local mod = require(file);
+				if type(mod)~='table' then return false end
+				if type(mod.on_create)~='function' then return false end
+				if type(mod.on_readme)~='function' then return false end
+				return mod.on_readme();
 			end
 		);
 	end
@@ -58,29 +58,14 @@ function pop()
 		init_tree();
 		Dlg:show();
 	end
-	local function on_start()
-		local name = Mat.get_selection_lin_text{mat=mat_,col=1};
-		reload(Path..'/'..name).start();
-		Dlg:hide();
-	end
 
-	local function on_select_lin(i)
-		-- Mat.select_lin{mat=mat_,lin=i}
-	end
-
-	-- function mat_:click_cb(lin,col,str)on_select_lin()end
-	
 	init();
-	-- on_select_lin(1);
-	-- Key.register_k_any{dlg=Dlg,[iup.K_CR]=on_start};
 	
 	return Dlg
 end
 
 function get_selection()
-	-- return Pos..Path..'Assistant/Line';
-	return Pos..Path..'Structure/Beam';
-	-- return Pos..Path..tree_:get_selected_path();
+	return Pos..Path..tree_:get_selected_path();
 end
 
 
