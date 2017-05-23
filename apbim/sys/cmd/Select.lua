@@ -1,5 +1,7 @@
 _ENV = module(...,ap.adv)
 
+local DRAG = require'sys.drag'
+
 local function shirr(scene,pt1,pt2)
 	local cx1,cy1 = world_2_client(scene,pt1[1],pt1[2],pt1[3]);
 	local cx2,cy2 = world_2_client(scene,pt2[1],pt2[2],pt2[3]);
@@ -8,7 +10,7 @@ local function shirr(scene,pt1,pt2)
 	local wx3,wy3,wz3 = client_2_world(scene,cx1,cy2);
 	local wx4,wy4,wz4 = client_2_world(scene,cx2,cy1);
 	return {
-		index = require"sys.drag".get_shirr_index();
+		index = DRAG.get_shirr_index();
 		surfaces = {
 			{
 				textured = 0;
@@ -65,20 +67,20 @@ function Command:init(scene)
 end
 
 -- function Command:on_paint(scene)
-	-- require"sys.drag".update(scene);
+	-- DRAG.update(scene);
 -- end
 
 function Command:on_lbuttondown(scene,flags,x,y)
 	local pt = {client_2_world(scene,x,y)};
 	self.spt = pt;
 	-- self.scene_spt = {x,y};
-	require"sys.drag".start(scene);
+	DRAG.start(scene);
 end
 
 function Command:on_lbuttonup(scene,flags,x,y)
 	if not self.spt then return end;
 	local pt = {client_2_world(scene,x,y)};
-	require"sys.drag".stop(scene);
+	DRAG.stop(scene);
 	run(scene,self.spt,pt);
 	self.spt = nil;
 end
@@ -87,7 +89,7 @@ function Command:on_mousemove(scene,flags,x,y)
 	if not self.spt then return end;
 	local pt = {client_2_world(scene,x,y)};
 	local obj = shirr(scene,self.spt,pt);
-	require"sys.drag".draw{scene=scene,object=obj};
+	DRAG.draw{scene=scene,object=obj};
 end
 
 

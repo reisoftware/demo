@@ -1,8 +1,10 @@
 _ENV = module(...,ap.adv)
 
+local DRAG = require'sys.mgr.drag'
+
 function get_shirr_line(pt1,pt2)
 	return {
-		index = require"sys.mgr.drag".get_shirr_index();
+		index = DRAG.get_shirr_index();
 		surfaces = {
 			{
 				textured = 0;
@@ -19,32 +21,32 @@ function get_shirr_line(pt1,pt2)
 end
 
 function get_shirr_index()
-	return require"sys.mgr.drag".get_shirr_index();
+	return DRAG.get_shirr_index();
 end
 
 function is_running()
-	return require"sys.mgr.drag".is_running();
+	return DRAG.is_running();
 end
 
 function update(sc)
-	require"sys.mgr.drag".update(sc);
+	DRAG.update(sc);
 end
 
 function start(sc)
-	require"sys.mgr.drag".start(sc);
+	DRAG.start(sc);
 end
 
 function stop(sc)
-	require"sys.mgr.drag".stop(sc);
+	DRAG.stop(sc);
 end
 
 -- arg={scene=,object}
 function draw(arg)
-	require"sys.mgr.drag".draw(arg.scene,arg.object);
+	DRAG.draw(arg.scene,arg.object);
 end
 
 -- arg={scene=,pt1=,pt2=}
 function draw_shirr_line(arg)
 	local obj = get_shirr_line(arg.pt1,arg.pt2);
-	require"sys.mgr.drag".draw(arg.scene,obj);
+	DRAG.draw(arg.scene,obj);
 end

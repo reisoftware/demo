@@ -19,8 +19,9 @@ end
 
 
 function Class:on_draw(arg)
+require'sys.table'.totrace{arg=arg}
 	if not self.Points[2] then self.Points[2] = {self.Points[1].x,self.Points[1].y,self.Points[1].z+3300} end
-	self:set_shape_rendering(require"app.Steel.shape".draw_member(self,arg.mode));
+	return require"app.Steel.shape".draw_member(self,string.lower(arg.mode));
 end
 
 function Class:get_alignment_text()

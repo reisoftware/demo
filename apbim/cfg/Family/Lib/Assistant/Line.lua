@@ -96,15 +96,13 @@ function Class:on_draw(arg)
 	local pt1 = self:get_pt(1);
 	local pt2 = self:get_pt(2);
 	return {
-		Diagram = {
-			surfaces = {
-				{
-					points = {
-						{cr.r,cr.g,cr.b,1,1,pt1.x,pt1.y,pt1.z};
-						{cr.r,cr.g,cr.b,1,1,pt2.x,pt2.y,pt2.z};
-					};
-					lines = {{1,2}};
+		surfaces = {
+			{
+				points = {
+					{cr.r,cr.g,cr.b,1,1,pt1.x,pt1.y,pt1.z};
+					{cr.r,cr.g,cr.b,1,1,pt2.x,pt2.y,pt2.z};
 				};
+				lines = {{1,2}};
 			};
 		};
 	};

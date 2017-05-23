@@ -52,6 +52,7 @@ function pop()
 				return mod.on_readme();
 			end
 		);
+		tree_:set_expand_all('Yes');
 	end
 
 	local function init()
