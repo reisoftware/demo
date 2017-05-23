@@ -80,6 +80,7 @@ end
 function get_selection()
 	-- return Pos..Path..'Assistant/Line';
 	return Pos..Path..'Structure/Beam';
+	-- return Pos..Path..tree_:get_selected_path();
 end
 
 
