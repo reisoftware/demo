@@ -6,8 +6,8 @@ local reload = reload
 
 _ENV = module(...)
 
-local Wsp = require'sys.Workspace'
 local Mgr = require'sys.mgr'
+local Wsp = require'sys.Workspace'
 local Dlg = require'app.Family.dlg'
 
 function Lib()
@@ -16,7 +16,7 @@ function Lib()
 end
 
 function Add()
-	Dlg.pop();
+	reload(Dlg.get_selection()).on_create{};
 end
 
 

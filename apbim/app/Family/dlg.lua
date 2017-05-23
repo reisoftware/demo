@@ -21,8 +21,8 @@ local Dir = require'sys.dir'
 local Tab = require'sys.table'
 local Tree = require'sys.workspace.tree.iupTree'.Class
 
-local Pos = lfs.currentdir()..'/'
--- local Pos = '/'
+-- local Pos = lfs.currentdir()..'/'
+local Pos = ''
 local Path = 'cfg/Family/Lib/'
 local Exname = 'lua'
 local DotExname = '.'..Exname
@@ -71,6 +71,10 @@ function pop()
 	-- Key.register_k_any{dlg=Dlg,[iup.K_CR]=on_start};
 	
 	return Dlg
+end
+
+function get_selection()
+	return Pos..Path..'Graphics/Line';
 end
 
 

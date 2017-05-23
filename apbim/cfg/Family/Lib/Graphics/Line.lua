@@ -4,8 +4,10 @@ _ENV = module(...)
 
 local ENT = require"sys.Entity"
 local GEO = require"sys.geometry"
+local CMD = require'sys.cmd'
+local CREATE = require'app.Edit.Create'
 
-local iup = require"iup";
+local iup = require"iuplua"
 
 local PT1 = iup.label{title="Point1:"};
 local PT1X = iup.toggle{title="X="};
@@ -18,9 +20,9 @@ local PT2 = iup.label{title="Point2:"};
 local PT2X = iup.toggle{title="X="};
 local PT2Y = iup.toggle{title="Y="};
 local PT2Z = iup.toggle{title="Z="};
-local Pt2x_ = iup.text{expand="horizontal"};
-local Pt2y_ = iup.text{expand="horizontal"};
-local Pt2z_ = iup.text{expand="horizontal"};
+local Pt2x = iup.text{expand="horizontal"};
+local Pt2y = iup.text{expand="horizontal"};
+local Pt2z = iup.text{expand="horizontal"};
 local OK = iup.button{title="OK",size="50x15"};
 local CANCEL = iup.button{title="Cancel",size="50x15"};
 
@@ -81,7 +83,7 @@ end
 Class = {
 	Classname = 'cfg/Family/Assistant/Line';
 	-- Points = {[1],[2]};
-	-- Color = {255,255,255};
+	-- Color = {0,0,255};
 };
 ENT.Class:met(Class);
 
@@ -90,7 +92,7 @@ function Class:on_edit()
 end
 
 function Class:on_draw_diagram()
-	local cr = GEO.Color:new(self.Color):get_gl()
+	local cr = GEO.Color:new(self.Color or {0,0,255}):get_gl()
 	local pt1 = self:get_pt(1);
 	local pt2 = self:get_pt(2);
 	self:set_shape_diagram{
@@ -111,5 +113,6 @@ function on_readme()
 end
 
 function on_create(arg)
+	CMD.set{command=CREATE.new{class=Class:new()}};
 end
 
