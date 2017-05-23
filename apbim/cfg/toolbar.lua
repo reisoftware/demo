@@ -106,12 +106,12 @@ return {
 		};
 		{};
 		{
-			name = 'Cursor Idle';
+			name = 'Idle';
 			keyword = 'AP.Select.Idle',
 			image = 21;
 		};
 		{
-			name = 'Cursor Select';
+			name = 'Cursor';
 			keyword = 'AP.Select.Cursor',
 			image = 21;
 		};

@@ -11,5 +11,5 @@ function on_readme()
 end
 
 function on_create(arg)
-	CMD.set{command=CREATE.new{class=Beam:new{Type="Beam",Color={0,0,255},Section="H200*100*5*12",Beta=0}:set_mode_rendering()}};
+	CMD.set{command=CREATE.new{class=Beam:new{Type="Beam",Color={0,0,255},Section="H200*100*5*12",Beta=0}:set_mode_rendering()}:set_step_count(2)};
 end

@@ -113,6 +113,6 @@ function on_readme()
 end
 
 function on_create(arg)
-	CMD.set{command=CREATE.new{class=Class:new()}:set_count(2)};
+	CMD.set{command=CREATE.new{class=Class:new()}:set_step_count(2)};
 end
 
