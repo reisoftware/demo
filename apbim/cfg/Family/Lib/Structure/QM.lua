@@ -265,7 +265,7 @@ local function add_line_y(sc,iy,dy,cx,dx)
 end
 
 local function add_plate(sc,ix,iy,iz,dx,dy,dz)
-	local t =Plate:new{Type="Roof",Color={128,128,0},Mode=require"sys.Entity".Diagram};
+	local t =Plate:new{Type="Roof",Color={128,128,0},Mode="Diagram"};
 	local x1,y1,z1 = 0,0,dz;
 	local x2,y2,z2 = dx,dy,dz;
 	t:add_pt{x1+(ix-1)*dx,y1+(iy-1)*dy,z1+(iz-1)*dz};
