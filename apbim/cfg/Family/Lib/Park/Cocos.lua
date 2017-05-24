@@ -3,8 +3,6 @@ local reload = reload
 
 _ENV = module(...)
 
-local ENT = require"sys.Entity"
-local GEO = require"sys.geometry"
 local CMD = require'sys.cmd'
 local CREATE = require'app.Edit.Create'
 local Fixed = require'app.Family.Fixed'.Class
