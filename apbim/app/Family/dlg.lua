@@ -17,6 +17,7 @@ local Mat = require'sys.api.iup.matrix'
 local Iup = require'sys.iup'
 local Dir = require'sys.dir'
 local Tab = require'sys.table'
+local CMD = require'sys.cmd'
 local Tree = require'sys.workspace.tree.iupTree'.Class
 
 local Pos = ''
@@ -24,8 +25,12 @@ local Path = 'cfg/Family/Lib/'
 local Exname = 'lua'
 local DotExname = '.'..Exname
 
+local function set_idel()
+	CMD.set_idle();
+end
 
 local tree_ = Tree:new();
+tree_:set_lbtn(set_idle)
 
 local Dlg = iup.frame{
 	tabtitle = "Family";
@@ -36,6 +41,7 @@ local Dlg = iup.frame{
 		iup.hbox{tree_:get_tree()};
 	};
 }
+
 
 function pop()
 

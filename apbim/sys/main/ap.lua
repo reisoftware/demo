@@ -37,6 +37,8 @@ ap.sys = {
 	math = math;
 	string = string;
 	table = table;
+	io = io;
+	os = os;
 	-- ID = ID;
 	frm = frm;
 	-- MF_POPUP = MF_POPUP;
@@ -63,10 +65,6 @@ ap.sys = {
 	sub_menu = sub_menu;
 	trace_out = trace_out;
 	world_2_client = world_2_client;
-}
-ap.adv = {
-	io = io;
-	os = os;
 }
 ap.adv = {}
 setmetatable(ap.adv,{__index=_G})

@@ -115,11 +115,11 @@ local Shape = {
 
 
 function on_readme()
-	return {title=Name,icon=Path..Name..'.bmp',tip="Add Tree",remark=""}
+	return {title=Name,icon=Path..Name..'.bmp'}
 end
 
 function on_create(arg)
-	local ent = Fixed:new{Type="Green",Color={0,255,100}}
+	local ent = Fixed:new{}
 	ent:set_shape(Shape)
 	ent:set_mode_rendering()
 	CMD.set{command=CREATE.new{class=ent}:set_step_count(1)}
