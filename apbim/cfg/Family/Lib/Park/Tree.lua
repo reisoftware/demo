@@ -14,7 +14,7 @@ local Name = 'Tree'
 
 
 function on_readme()
-	return {title=Name,icon=Path..Name..'.bmp',tip="Add Tree"}
+	return {title=Name,icon=Path..Name..'.bmp',tip="Add Tree",remark=""}
 end
 
 function on_create(arg)

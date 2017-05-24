@@ -4,12 +4,15 @@ _ENV = module(...)
 
 local CMD = require'sys.cmd'
 local CREATE = require'app.Edit.Create'
-local Beam = require"app.Steel.Member".Class;
+local Member = require"app.Steel.Member".Class;
+
+local Path = 'cfg/Family/Lib/Structure/'
+local Name = 'Beam'
 
 function on_readme()
-	return {title="Beam",icon='cfg/Family/Lib/Structure/Beam.bmp',tip="Create Beam Family"}
+	return {title=Name,icon=Path..Name..'.bmp',tip="Create Beam Family",remark=""}
 end
 
 function on_create(arg)
-	CMD.set{command=CREATE.new{class=Beam:new{Type="Beam",Color={0,0,255},Section="H200*100*5*12",Beta=0}:set_mode_rendering()}:set_step_count(2)};
+	CMD.set{command=CREATE.new{class=Member:new{Type="Name",Color={0,0,255},Section="H200*100*5*12",Beta=0}:set_mode_rendering()}:set_step_count(2)};
 end
