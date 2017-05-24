@@ -209,7 +209,7 @@ local iup = require "iuplua"
 require "iupluacontrols"
 require "iupluaimglib"
 local lfs = require 'lfs'
-local RMenu_ = {} -- require 'sys.workspace.tree.rmenu'
+local RMenu_ =  require 'sys.workspace.tree.rmenu'
 Class = {}
 
 ----------------------------------------------------------------------------------------------------------
