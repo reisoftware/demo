@@ -28,7 +28,7 @@ local DotExname = '.'..Exname
 local tree_ = Tree:new();
 
 local Dlg = iup.frame{
-	-- title = "Family Lib";
+	tabtitle = "Family";
 	margin = "5x5";
 	alignment = "aRight";
 	rastersize = "480X620";

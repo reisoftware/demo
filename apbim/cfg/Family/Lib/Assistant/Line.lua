@@ -9,6 +9,9 @@ local CREATE = require'app.Edit.Create'
 
 local iup = require"iuplua"
 
+local Path = 'cfg/Family/Lib/Assistant/'
+local Name = 'Line'
+
 local PT1 = iup.label{title="Point1:"};
 local PT1X = iup.toggle{title="X="};
 local PT1Y = iup.toggle{title="Y="};
@@ -81,7 +84,7 @@ end
 
 
 Class = {
-	Classname = 'cfg/Family/Lib/Assistant/Line';
+	Classname = Path..Name;
 	-- Points = {[1],[2]};
 	-- Color = {0,0,255};
 };
@@ -109,10 +112,10 @@ function Class:on_draw(arg)
 end
 
 function on_readme()
-	return {title="Line",icon=Class.Classname..'.bmp',tip="Assistant Line"}
+	return {title=Name,icon=Path..Name..'.bmp',tip="Assistant Line",remark=""}
 end
 
 function on_create(arg)
-	CMD.set{command=CREATE.new{class=Class:new()}:set_count(2)};
+	CMD.set{command=CREATE.new{class=Class:new()}:set_step_count(2)};
 end
 

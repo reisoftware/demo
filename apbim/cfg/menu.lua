@@ -149,6 +149,10 @@ return  {
   	 	name = "Select";
   	 	subs = {
   	 	 	{
+  	 	 	 	name = "Idle";
+  	 	 	 	keyword ='AP.Select.Idle';
+  	 	 	};
+  	 	 	{
   	 	 	 	name = "Cursor";
   	 	 	 	keyword ='AP.Select.Cursor';
   	 	 	};

@@ -36,7 +36,12 @@ local function run(class,scene,pts)
 	require"sys.statusbar".show_model_count();
 end
 
-function Command:set_count(n)
+-- function Command:set_count(n)
+	-- self.n = n;
+	-- return self;
+-- end
+
+function Command:set_step_count(n)
 	self.n = n;
 	return self;
 end

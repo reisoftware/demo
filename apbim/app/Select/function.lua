@@ -1,5 +1,9 @@
 _ENV = module(...,ap.sys)
 
+function Idle(sc)
+	require"sys.cmd".set_idle(sc);
+end
+
 function Cursor(sc)
 	require"sys.cmd".set_select(sc);
 end

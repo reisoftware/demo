@@ -7,6 +7,11 @@ local Action = require'app.Select.function'
 
 function on_load()
 	Menu.add{
+		keyword = 'AP.Select.Idle';
+		action = Action.Idle;
+		view = true;
+	};
+	Menu.add{
 		keyword = 'AP.Select.Cursor';
 		action = Action.Cursor;
 		view = true;
