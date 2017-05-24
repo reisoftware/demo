@@ -14,5 +14,5 @@ function on_readme()
 end
 
 function on_create(arg)
-	CMD.set{command=CREATE.new{class=Member:new{Type="Column",Color={255,0,100},Section="S100*100*16",Beta=0}:set_mode_rendering()}:set_step_count(1)};
+	CMD.set{command=CREATE.new{class=Member:new{Type="Column",Color={255,0,100},Section="S400*400*32",Beta=0}:set_mode_rendering()}:set_step_count(1)};
 end
