@@ -25,12 +25,12 @@ local Path = 'cfg/Family/Lib/'
 local Exname = 'lua'
 local DotExname = '.'..Exname
 
-local function set_idel()
+local function set_idle()
 	CMD.set_idle();
 end
 
 local tree_ = Tree:new();
-tree_:set_lbtn(set_idle)
+tree_:set_selection_cb(set_idle)
 
 local Dlg = iup.frame{
 	tabtitle = "Family";
