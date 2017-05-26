@@ -17,9 +17,9 @@ function module(name,up)
 end
 
 function reload(name)
-	local f = io.open(name,'r');
-	if not f then return end
-	f:close();
+	-- local f = io.open(name,'r');
+	-- if not f then return end
+	-- f:close();
 	package.loaded[name]=nil;
 	return require(name);
 end
