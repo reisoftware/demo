@@ -115,7 +115,7 @@ function on_readme()
 	return {title=Name,icon=Path..Name..'.bmp',tip="Assistant Line",remark=""}
 end
 
-function on_create(arg)
+function on_start(arg)
 	CMD.set{command=CREATE.new{class=Class:new()}:set_step_count(2)};
 end
 

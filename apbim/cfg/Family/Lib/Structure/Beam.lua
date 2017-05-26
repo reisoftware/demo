@@ -13,6 +13,6 @@ function on_readme()
 	return {title=Name,icon=Path..Name..'.bmp',tip="Create Beam Family",remark=""}
 end
 
-function on_create(arg)
+function on_start(arg)
 	CMD.set{command=CREATE.new{class=Member:new{Type="Name",Color={0,0,255},Section="H500*200*5*12",Beta=0}:set_mode_rendering()}:set_step_count(2)};
 end

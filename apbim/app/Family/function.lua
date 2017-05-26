@@ -16,7 +16,7 @@ function Lib()
 end
 
 function Add()
-	require(Dlg.get_selection()).on_create{};
+	require(Dlg.get_selection()).on_start{};
 end
 
 function Property()

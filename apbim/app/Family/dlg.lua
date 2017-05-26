@@ -53,7 +53,7 @@ function pop()
 				local file = path..string.sub(name,1,-5);
 				local mod = require(file);
 				if type(mod)~='table' then return false end
-				if type(mod.on_create)~='function' then return false end
+				if type(mod.on_start)~='function' then return false end
 				if type(mod.on_readme)~='function' then return false end
 				return mod.on_readme();
 			end

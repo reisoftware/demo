@@ -118,7 +118,7 @@ function on_readme()
 	return {title=Name,icon=Path..Name..'.bmp'}
 end
 
-function on_create(arg)
+function on_start(arg)
 	local ent = Fixed:new{}
 	ent:set_shape(Shape)
 	ent:set_mode_rendering()
