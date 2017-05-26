@@ -9,6 +9,7 @@ _ENV = module(...)
 local Mgr = require'sys.mgr'
 local Wsp = require'sys.Workspace'
 local Dlg = require'app.Family.dlg'
+local Fixed = require'app.Family.Fixed'
 
 function Lib()
 	Wsp.add{hwnd=Dlg.pop(),current=true};
@@ -16,7 +17,9 @@ function Lib()
 end
 
 function Add()
-	require(Dlg.get_selection()).on_start{};
+	local mod = require(Dlg.get_selection());
+	if type(mod.on_start)=='function' then mod.on_start{mode='Create';} end
+	if type(mod.Shape)=='table' then Fixed.on_start{mode='Create';shape=mod.Shape} end
 end
 
 function Property()

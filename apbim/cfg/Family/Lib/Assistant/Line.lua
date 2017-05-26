@@ -11,6 +11,7 @@ local iup = require"iuplua"
 
 local Path = 'cfg/Family/Lib/Assistant/'
 local Name = 'Line'
+Readme = {title=Name,icon=Path..Name..'.bmp',tip='',remark=''}
 
 local PT1 = iup.label{title="Point1:"};
 local PT1X = iup.toggle{title="X="};
@@ -111,9 +112,6 @@ function Class:on_draw(arg)
 	};
 end
 
-function on_readme()
-	return {title=Name,icon=Path..Name..'.bmp',tip="Assistant Line",remark=""}
-end
 
 function on_start(arg)
 	CMD.set{command=CREATE.new{class=Class:new()}:set_step_count(2)};

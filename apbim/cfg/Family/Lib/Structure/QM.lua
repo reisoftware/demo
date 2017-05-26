@@ -19,6 +19,7 @@ local iup = require"iuplua"
 
 local Path = 'cfg/Family/Lib/Structure/'
 local Name = 'QM'
+Readme = {title=Name,icon=Path..Name..'.bmp',tip='',remark=''}
 
 
 
@@ -359,10 +360,6 @@ end
 
 function pop()
 	dlg_:show()
-end
-
-function on_readme()
-	return {title=Name,icon=Path..Name..'.bmp',tip="Quick Model",remark=""}
 end
 
 function on_start(arg)

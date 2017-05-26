@@ -53,9 +53,8 @@ function pop()
 				local file = path..string.sub(name,1,-5);
 				local mod = require(file);
 				if type(mod)~='table' then return false end
-				if type(mod.on_start)~='function' then return false end
-				if type(mod.on_readme)~='function' then return false end
-				return mod.on_readme();
+				if type(mod.Readme)~='table' then return false end
+				return mod.Readme;
 			end
 		);
 		tree_:set_expand_all('Yes');

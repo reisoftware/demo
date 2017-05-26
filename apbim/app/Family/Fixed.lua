@@ -4,6 +4,9 @@ local trace_out = trace_out
 
 _ENV = module(...)
 
+local CMD = require'sys.cmd'
+local CREATE = require'app.Edit.Create'
+
 Class = {
 	Classname = "app/Family/Fixed";
 	-- Points = {[1]};
@@ -31,3 +34,15 @@ function Class:set_shape(t)
 	self.Shape = t;
 end
 
+Starts = {}
+Starts.Create = function (shape)
+	local ent = Class:new{}
+	ent:set_shape(shape)
+	ent:set_mode_rendering()
+	CMD.set{command=CREATE.new{class=ent}:set_step_count(1)}
+end
+
+function on_start(arg)
+trace_out('Fixed/on_start()\n');
+	if type(Starts[arg.mode])=='function' then Starts[arg.mode](arg.shape) end
+end
