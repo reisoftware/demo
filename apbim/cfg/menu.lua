@@ -176,20 +176,20 @@ return  {
   	 	subs = {
   	 	 	{
   	 	 	 	name = "Property";
-  	 	 	 	keyword ='AP.View.Property';
+  	 	 	 	keyword ='AP.Edit.Property';
   	 	 	};
 			{};
   	 	 	{
   	 	 	 	name = "Copy";
-  	 	 	 	keyword ='AP.View.Copy';
+  	 	 	 	keyword ='AP.Edit.Copy';
   	 	 	};
   	 	 	{
   	 	 	 	name = "Move";
-  	 	 	 	keyword ='AP.View.Move';
+  	 	 	 	keyword ='AP.Edit.Move';
   	 	 	};
   	 	 	{
   	 	 	 	name = "Del";
-  	 	 	 	keyword ='AP.View.Del';
+  	 	 	 	keyword ='AP.Edit.Del';
   	 	 	};
   	 	};
   	};
@@ -210,45 +210,12 @@ return  {
 				keyword ='AP.Family.Lib';
   	 	 	};
   	 	 	{
+  	 	 	 	name = "Property";
+				keyword ='AP.Family.Property';
+  	 	 	};
+  	 	 	{
   	 	 	 	name = "Add";
 				keyword ='AP.Family.Add';
-  	 	 	};
-  	 	};
-  	};
- 	{
-  	 	name = "Graphics";
-  	 	subs = {
-  	 	 	{
-  	 	 	 	name = "Draw";
-				subs = {
-					{
-						name = "Line";
-						keyword ='AP.Graphics.Darw.Line';
-					};
-				};
-  	 	 	};
-  	 	};
-  	};
- 	{
-  	 	name = "Steel";
-  	 	subs = {
-  	 	 	{
-  	 	 	 	name = "Draw";
-				subs = {
-					{
-						name = "Beam";
-						keyword ='AP.Steel.Darw.Beam';
-					};
-				};
-  	 	 	};
-  	 	 	{
-  	 	 	 	name = "Model";
-				subs = {
-					{
-						name = "CGB";
-						keyword ='AP.Steel.Model.CGB';
-					};
-				};
   	 	 	};
   	 	};
   	};

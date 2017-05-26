@@ -91,7 +91,7 @@ function pop()
 end
 
 function get_selection()
-	return Pos..Path..tree_:get_selected_path();
+	return Pos..Path..string.sub(tree_:get_selected_path(),1,-5);
 end
 
 
