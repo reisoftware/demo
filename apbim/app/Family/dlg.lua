@@ -19,6 +19,7 @@ local Dir = require'sys.dir'
 local Tab = require'sys.table'
 local CMD = require'sys.cmd'
 local Tree = require'sys.workspace.tree.iupTree'.Class
+local Action = require'app.Family.function'
 
 local Pos = ''
 local Path = 'cfg/Family/Lib/'
@@ -31,6 +32,8 @@ end
 
 local tree_ = Tree:new();
 tree_:set_selection_cb(set_idle)
+-- tree_:set_dlbtn(Action.Property)
+tree_:set_dlbtn(function() trace_out('tree_:set_dlbtn\n') Action.Property() end)
 
 local Dlg = iup.frame{
 	tabtitle = "Family";

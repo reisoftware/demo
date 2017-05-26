@@ -16,13 +16,17 @@ function Lib()
 	-- Dlg.pop();
 end
 
-function Add()
+local function start(mode)
 	local mod = require(Dlg.get_selection());
-	if type(mod.on_start)=='function' then mod.on_start{mode='Create';} end
-	if type(mod.Shape)=='table' then Fixed.on_start{mode='Create';shape=mod.Shape} end
+	if type(mod.on_start)=='function' then mod.on_start{mode=mode;} return end
+	if type(mod.Shape)=='table' then Fixed.on_start{mode=mode;shape=mod.Shape} return end
+end
+
+function Add()
+	start'Create'
 end
 
 function Property()
-	-- require(Dlg.get_selection()).on_create{};
+	start'Property'
 end
 
