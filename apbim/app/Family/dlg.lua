@@ -31,9 +31,9 @@ local function set_idle()
 end
 
 local tree_ = Tree:new();
--- tree_:set_selection_cb(set_idle)
+tree_:set_selection_cb(set_idle)
 -- tree_:set_dlbtn(Action.Property)
--- tree_:set_dlbtn(function() trace_out('tree_:set_dlbtn\n') Action.Property() end)
+tree_:set_dlbtn(function() trace_out('tree_:set_dlbtn\n') Action.Property() end)
 
 local Dlg = iup.frame{
 	tabtitle = "Family";
@@ -51,17 +51,13 @@ function pop()
 	local function init_tree()
 		tree_:init_path_data(
 			Pos..Path,
-			function(name,path,status)
-				if status==0 then 
-					return {}
-				else
-					if string.sub(name,-4,-1)~='.lua' then return false end
-					local file = path..string.sub(name,1,-5);
-					local mod = require(file);
-					if type(mod)~='table' then return false end
-					if type(mod.Readme)~='table' then return false end
-					return mod.Readme;
-				end
+			function(name,path)
+				if string.sub(name,-4,-1)~='.lua' then return false end
+				local file = path..string.sub(name,1,-5);
+				local mod = require(file);
+				if type(mod)~='table' then return false end
+				if type(mod.Readme)~='table' then return false end
+				return mod.Readme;
 			end
 		);
 		tree_:set_expand_all('Yes');
