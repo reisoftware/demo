@@ -51,13 +51,17 @@ function pop()
 	local function init_tree()
 		tree_:init_path_data(
 			Pos..Path,
-			function(name,path)
-				if string.sub(name,-4,-1)~='.lua' then return false end
-				local file = path..string.sub(name,1,-5);
-				local mod = require(file);
-				if type(mod)~='table' then return false end
-				if type(mod.Readme)~='table' then return false end
-				return mod.Readme;
+			function(name,path,status)]
+				if status==0 then 
+					return {}
+				else
+					if string.sub(name,-4,-1)~='.lua' then return false end
+					local file = path..string.sub(name,1,-5);
+					local mod = require(file);
+					if type(mod)~='table' then return false end
+					if type(mod.Readme)~='table' then return false end
+					return mod.Readme;
+				end
 			end
 		);
 		tree_:set_expand_all('Yes');
