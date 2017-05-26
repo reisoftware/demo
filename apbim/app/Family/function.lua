@@ -19,4 +19,7 @@ function Add()
 	require(Dlg.get_selection()).on_create{};
 end
 
+function Property()
+	-- require(Dlg.get_selection()).on_create{};
+end
 

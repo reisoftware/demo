@@ -19,8 +19,8 @@ function on_load()
 		view = true;
 	}
 	MENU.add{
-		keyword = 'AP.Family.Create';
-		action = Action.Create;
+		keyword = 'AP.Family.Add';
+		action = Action.Add;
 		view = true;
 	}
 end
