@@ -722,7 +722,7 @@ end
 
 function Class:reg_map_cb(f)
 	self.map_cbs = self.map_cbs or {}
-	table.insert(self.map_cbs,f)
+	table_insert_(self.map_cbs,f)
 end
 
 function Class:set_data(data)
@@ -882,6 +882,7 @@ end
 
 function Class:set_tree_data(data,id)
 	if type(data) ~= 'table' or #data == 0 then return end
+	if not id then return end 
 	local cur_id = id
 	for k,v in ipairs (data) do 
 		if not v.attributes then error('Please check data !') return end 
@@ -898,11 +899,11 @@ function Class:set_tree_data(data,id)
 		else 
 			if t.kind and t.kind == 'branch' then
 				self:insert_branch('',cur_id)	
-				cur_id = cur_id + self:get_node_ids(cur_id) + 1
+				cur_id = cur_id + self:get_totalchildcount(cur_id) + 1
 				self:set_tree_data(v[1],cur_id)
 			else 
 				self:insert_leaf('',cur_id)
-				cur_id = cur_id + self:get_node_ids(cur_id) + 1
+				cur_id = cur_id + self:get_totalchildcount(cur_id) + 1
 			end
 		end
 		set_node_status(self,cur_id,t)
@@ -927,6 +928,15 @@ end
 --]]
 
 ---------------------2017年5月22日 update ---------------------------------------------------------
+local function get_rule_data(attributes,status,line)
+	if type(status) ~= 'table' then return end 
+	attributes.image = status.icon
+	attributes.tip = status.tip
+	attributes.title = status.title or attributes.title
+	attributes.data = attributes.data or {}
+	attributes.data.TrueName = line
+end
+
 local function get_path_data(path,rule)
 	local data =  {}
 	function add_data(path)
@@ -941,21 +951,15 @@ local function get_path_data(path,rule)
 				local status = true
 				local t = {}
 				if mode == 'directory' then 
-					t = add_data(name)
+					t = add_data(name) or {}
+					status = rule(line,path .. '/',0)
+					get_rule_data(t.attributes,status,line)
 					if status then table_insert_(tempt[1],pos,t) pos = pos +1 end
 				else 
 					t.attributes = {title = line,kind = 'leaf' ,data = {file = name}}
 					 if type(rule) =='function' then 
 						status = rule(line,path .. '/',1)
-						--print(status)
-						if type(status) == 'table' then 
-							t.attributes.image = status.icon
-							t.attributes.tip = status.tip
-							t.attributes.title = status.title or t.attributes.title
-							for k,v in pairs (status) do
-								t.attributes.data[k] = v
-							end
-						end
+						get_rule_data(t.attributes,status,line)
 					end 
 					if status then table_insert_(tempt[1],t) end
 				end 
@@ -1023,12 +1027,18 @@ Class:get_selected_path(id)
 function Class:get_selected_path(id)
 	if not map_warning(self) then return end
 	local id = id or self:get_tree_selected()	
+	local keyIndex = 'TrueName'
 	local function get_path(id,str)
 		if self:get_node_depth(id) == 0 then 
 			return str
 		end
 		local str = str and ('/' .. str) or ''
-		str =  self:get_node_title(id) ..str
+		local curstr = self:get_node_title(id)
+		if keyIndex then 
+			local t = self:get_node_data(id) 
+			curstr = t and t[keyIndex] or curstr 
+		end 
+		str = curstr  .. str
 		return get_path(self:get_node_parent(id),str)
 	end
 	return get_path(id)
@@ -1058,3 +1068,27 @@ function Class:set_expand_all(states)
 	tree.EXPANDALL = states or 'NO'
 end
 
+--[[
+Class:get_index_id(pid,Key,val)
+功能：
+	查找父节点下各个子节点附着的数据中包含'key'属性并且key对应的值与'val'一致。并返回该节点id。
+使用示例：
+	local tree = require '...'.Class:new(t)
+	print(tree:get_index_id(0,'__title','project'))
+	参数说明：
+		pid ： 父节点id。
+		key：查找的key
+		val ：对应的值SS
+--]]
+function Class:get_index_id(pid,key,val)
+	if not pid or pid < 0 or not key or not val then return end 
+	local count = self:get_node_ids(pid)
+	local curid = pid +1
+	for i = 1,count do 
+		local t = self:get_node_data(curid)
+		if t and t[key] and t[key] == val then 
+			return curid
+		end
+		curid = curid + 1+ self:get_totalchildcount(curid)
+	end 
+end
