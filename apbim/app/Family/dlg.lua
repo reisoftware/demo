@@ -1,3 +1,4 @@
+local dofile = dofile
 local ipairs = ipairs
 local pairs = pairs
 local reload = reload
@@ -6,6 +7,7 @@ local string = string
 local table = table
 local trace_out = trace_out
 local type = type
+local io = io
 
 _ENV = module(...)
 
@@ -18,6 +20,7 @@ local Iup = require'sys.iup'
 local Dir = require'sys.dir'
 local Tab = require'sys.table'
 local CMD = require'sys.cmd'
+local IO = require'sys.io'
 local Tree = require'sys.workspace.tree.iupTree'.Class
 local Action = require'app.Family.function'
 
@@ -45,20 +48,33 @@ local Dlg = iup.frame{
 	};
 }
 
+local function is_there_table(file,exname)
+	local f = io.open(file..'.'..exname,'r')
+	if not f then return end
+	f:close()
+	return true
+end
+
 
 function pop()
 
 	local function init_tree()
 		tree_:init_path_data(
 			Pos..Path,
-			function(name,path)
-				return {}
-				-- if string.sub(name,-4,-1)~='.lua' then return false end
-				-- local file = path..string.sub(name,1,-5);
-				-- local mod = require(file);
-				-- if type(mod)~='table' then return false end
-				-- if type(mod.Readme)~='table' then return false end
-				-- return mod.Readme;
+			function(name,path,status)
+				if status==0 then
+					local file = path..name..'/Readme';
+					if not is_there_table(file,'lua') then return true end
+					local mod = require(file);
+					return mod;
+				else
+					if string.sub(name,-4,-1)~='.lua' then return false end
+					local file = path..string.sub(name,1,-5);
+					local mod = require(file);
+					if type(mod)~='table' then return false end
+					if type(mod.Readme)~='table' then return false end
+					return mod.Readme;
+				end
 			end
 		);
 		tree_:set_expand_all('Yes');
