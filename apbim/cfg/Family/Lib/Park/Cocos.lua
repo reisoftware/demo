@@ -9,11 +9,7 @@ local Fixed = require'app.Family.Fixed'.Class
 
 local Path = 'cfg/Family/Lib/Park/'
 local Name = 'Cocos'
-
-
-function on_readme()
-	return {title=Name,icon=Path..Name..'.bmp'}
-end
+Readme = {title=Name,icon=Path..Name..'.bmp',tip='',remark=''}
 
 function on_create(arg)
 	local ent = Fixed:new{}

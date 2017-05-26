@@ -1,9 +1,6 @@
 return {
 	Readme = {
 		title = "Tree";
-		icon = "cfg/Family/Lib/Park/Tree.bmp";
-		tip = "";
-		remark = "";
 	};
 	Shape = {
 		Diagram = {
