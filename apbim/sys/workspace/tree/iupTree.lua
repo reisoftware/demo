@@ -710,6 +710,7 @@ function Class:init()
 	self:init_lbtn() --初始化鼠标左键操作
 	self:init_dlbtn() --初始化双击鼠标左键操作
 	self:init_rbtn() --初始化鼠标右键操作
+	self:init_tree_tips()
 	self:init_tree_data() --如果有数据则初始化界面中的显示内容。
 end
 
@@ -844,15 +845,10 @@ function Class:init_rbtn()
 end
 
 
-function Class:set_node_tip(str,id)
+function Class:set_tree_tip(str)
 	if not self.tree then return error('Please create tree firstly !') end 
 	local tree = self.tree
-	local t = self:get_node_data()
-	if t and t.tip then 
-		tree.tip = t.tip
-	else
-		tree.tip = str
-	end 
+	tree.Ttip = str
 end
 
 		
@@ -870,7 +866,6 @@ cmds_.color = function (self,id,color)  self:set_node_color(color,id) end
 cmds_.title = function (self,id,title)   self:set_node_title(title,id) end
 cmds_.state = function (self,id,state)  self:set_node_state(state,id) end
 cmds_.data = function (self,id,data)  self:set_node_data(data,id) end
-cmds_.tip = function (self,id,str)  self:set_node_tip(str,id) end
 
 
 
@@ -936,15 +931,26 @@ end
 local function get_rule_data(attributes,status,line)
 	if type(status) ~= 'table' then return end 
 	attributes.image = status.icon
-	attributes.tip = status.tip
 	attributes.title = status.title or attributes.title
 	attributes.data = attributes.data or {}
 	attributes.data.TrueName = line
+	attributes.data.tip = status.tip
 end
 
 local function get_path_data(path,rule)
 	local data =  {}
 	function add_data(path)
+		-- if lev == 1 then 
+			-- local data = {}
+			-- local cur_name = string_match_(path,'.+/([^/]+)')
+			-- local cur_path = string_match_(path,'(.+)/[^/]+')
+			-- local status = rule(cur_name,cur_path .. '/',0)
+			-- if not status then return  end 
+			-- data.attributes = {title = cur_name,kind = 'branch',data = {TrueName = cur_name}}
+			-- get_rule_data(data.attributes,status,cur_name)
+			-- data[1] = add_data(path,lev+1)
+			-- return data
+		-- end 
 		local tempt = {}
 		tempt.attributes = {title = string_match_(path,'.+/([^/]+)'),kind = 'branch',data = {file = path}}
 		tempt[1] = {}
@@ -974,6 +980,52 @@ local function get_path_data(path,rule)
 	end
 	table_insert_(data,add_data(path))
 	return data
+	--]]
+	-- function add_data(path,lev)
+		-- local data = {}
+		-- if lev == 1 then 
+			-- local cur_name = string_match_(path,'.+/([^/]+)')
+			-- local cur_path = string_match_(path,'(.+)/[^/]+')
+			-- local status = rule(cur_name,cur_path .. '/',0)
+			-- if not status then return  end 
+			-- data.attributes = {title = cur_name,kind = 'branch',data = {TrueName = cur_name}}
+			-- get_rule_data(data.attributes,status,cur_name)
+			-- data[1] = add_data(path,lev+1)
+			
+			-- return data
+		-- end 
+		-- local data = {}
+		-- for line in lfs.dir(path) do
+			-- if line ~= '.' and line ~= '..' then 
+				-- local name = path .. '/' .. line
+				-- local mode = lfs.attributes(name,'mode')
+				-- local status = true
+				-- local t = {}
+				-- if mode == 'directory' then 
+					-- local status = rule(line,name .. '/',0)
+					-- if not status then return  end 
+					-- data.attributes = {title = line,kind = 'branch',data = {TrueName = line}}
+					-- get_rule_data(data.attributes,status,cur_name)
+					-- data[1] = = add_data(name) 
+					-- status = rule(line,path .. '/',0)
+					-- get_rule_data(t.attributes,status,line)
+					-- if status then table_insert_(tempt[1],pos,t) pos = pos +1 end
+				-- else 
+					-- t.attributes = {title = line,kind = 'leaf' ,data = {file = name}}
+					 -- if type(rule) =='function' then 
+						-- status = rule(line,path .. '/',1)
+						-- get_rule_data(t.attributes,status,line)
+					-- end 
+					-- if status then table_insert_(tempt[1],t) end
+				-- end 
+			-- end
+		-- end
+		-- return data
+	-- end
+	data[1] = add_data(path,1)
+	return data
+	
+
 end
 
 --[[
@@ -1096,4 +1148,29 @@ function Class:get_index_id(pid,key,val)
 		end
 		curid = curid + 1+ self:get_totalchildcount(curid)
 	end 
+end
+
+
+function Class:init_tree_tips()
+	
+	if not self.tree then return error('Please create tree firstly !') end 
+	local tree = self.tree
+
+	local function deal_callback(x,y)
+		tree.tip = nil
+		local cur_id = self:get_tree_selected()
+		local id = tonumber(iup.ConvertXYToPos(tree, x, y))
+		if id ~= cur_id then tree.tip = nil return end 
+		local t = self:get_node_data()
+		if t and t.tip  then 
+			tree.tip = t.tip
+		else 
+			tree.tip = self.Ttip or ''
+		end 
+	end
+
+	function tree:tips_cb(x,y)
+		deal_callback(x,y)
+	end
+
 end
