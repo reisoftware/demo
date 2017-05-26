@@ -176,22 +176,17 @@ return {
 		};
 		{};
 		{
-			name = 'Draw Line';
-			keyword = 'AP.Graphics.Darw.Line';
-			image = 30;
-		};
-		{
-			name = 'Draw Beam';
-			keyword = 'AP.Steel.Darw.Beam';
-			image = 31;
-		};
-		{
 			name = 'Family Lib';
 			keyword = 'AP.Family.Lib';
 			image = 34;
 		};
 		{
-			name = 'Add Selected Family';
+			name = 'Family Property';
+			keyword = 'AP.Family.Property';
+			image = 33;
+		};
+		{
+			name = 'Add Family';
 			keyword = 'AP.Family.Add';
 			image = 33;
 		};

@@ -19,27 +19,28 @@ Readme = {title=Name,icon=Path..Name..'.bmp',tip='',remark=''}
 
 local Color = {r=0,g=0,b=255}
 
-local CR = iup.label{title="Color:",size="30x"};
+local CR = iup.toggle{title="Color :",size="50x"};
 local CRR = iup.toggle{title="R="};
 local CRG = iup.toggle{title="G="};
 local CRB = iup.toggle{title="B="};
 local CRr = iup.text{expand="horizontal",value='255'};
 local CRg = iup.text{expand="horizontal",value='255'};
 local CRb = iup.text{expand="horizontal",value='255'};
-local PT1 = iup.label{title="Point1:",size="30x"};
+local PT1 = iup.toggle{title="Point1 :",size="50x"};
 local PT1X = iup.toggle{title="X="};
 local PT1Y = iup.toggle{title="Y="};
 local PT1Z = iup.toggle{title="Z="};
 local PT1x = iup.text{expand="horizontal",value='0'};
 local PT1y = iup.text{expand="horizontal",value='0'};
 local PT1z = iup.text{expand="horizontal",value='0'};
-local PT2 = iup.label{title="Point2:",size="30x"};
+local PT2 = iup.toggle{title="Point2 :",size="50x"};
 local PT2X = iup.toggle{title="X="};
 local PT2Y = iup.toggle{title="Y="};
 local PT2Z = iup.toggle{title="Z="};
 local PT2x = iup.text{expand="horizontal",value='0'};
 local PT2y = iup.text{expand="horizontal",value='0'};
 local PT2z = iup.text{expand="horizontal",value='0'};
+local CKALL = iup.toggle{title="Check",size="50x"};
 local Apply = iup.button{title="Apply",size="50x15"};
 local Modify = iup.button{title="Modify",size="50x15"};
 local Cancel = iup.button{title="Cancel",size="50x15"};
@@ -52,9 +53,61 @@ local DLG = iup.dialog{
 		iup.hbox{CR,CRR,CRr,CRG,CRg,CRB,CRb};
 		iup.hbox{PT1,PT1X,PT1x,PT1Y,PT1y,PT1Z,PT1z};
 		iup.hbox{PT2,PT2X,PT2x,PT2Y,PT2y,PT2Z,PT2z};
-		iup.hbox{iup.fill{},Apply,Modify,Cancel};
+		iup.hbox{CKALL,iup.fill{},Apply,Modify,Cancel};
 	};
 };
+
+function CR:action()
+	if CR.value=='ON' then 
+		CRR.value = "ON"
+		CRG.value = "ON"
+		CRB.value = 'ON';
+	else
+		CRR.value = "OFF"
+		CRG.value = "OFF"
+		CRB.value = 'OFF';
+	end
+end
+
+function PT1:action()
+	if PT1.value=='ON' then 
+		PT1X.value = "ON"
+		PT1Y.value = "ON"
+		PT1Z.value = 'ON';
+	else
+		PT1X.value = "OFF"
+		PT1Y.value = "OFF"
+		PT1Z.value = 'OFF';
+	end
+end
+
+function PT2:action()
+	if PT2.value=='ON' then 
+		PT2X.value = "ON"
+		PT2Y.value = "ON"
+		PT2Z.value = 'ON';
+	else
+		PT2X.value = "OFF"
+		PT2Y.value = "OFF"
+		PT2Z.value = 'OFF';
+	end
+end
+
+function CKALL:action()
+	if CKALL.value=='ON' then 
+		CR.value = "ON"
+		PT1.value = "ON"
+		PT2.value = 'ON';
+	else
+		CR.value = "OFF"
+		PT1.value = "OFF"
+		PT2.value = 'OFF';
+	end
+	CR:action()
+	PT1:action()
+	PT2:action()
+end
+
 
 local function init_dlg()
 	local cur = MGR.cur();
@@ -71,9 +124,9 @@ local function init_dlg()
 end
 
 function Apply:action()
-	if CRr.value=="ON" then Color.r = CRr.value end
-	if CRg.value=="ON" then Color.g = CRg.value end
-	if CRb.value=="ON" then Color.b = CRb.value end
+	if CRR.value=="ON" then Color.r = CRr.value end
+	if CRG.value=="ON" then Color.g = CRg.value end
+	if CRB.value=="ON" then Color.b = CRb.value end
 end
 
 function Modify:action()
@@ -81,9 +134,9 @@ function Modify:action()
 	if type(curs)~="table" then return end
 	for k,v in pairs(curs) do
 		if type(v)=="table" then
-			if CRr.value=="ON" then v.Color.r = CRr.value end
-			if CRg.value=="ON" then v.Color.g = CRg.value end
-			if CRb.value=="ON" then v.Color.b = CRb.value end
+			if CRR.value=="ON" then v.Color.r = CRr.value end
+			if CRG.value=="ON" then v.Color.g = CRg.value end
+			if CRB.value=="ON" then v.Color.b = CRb.value end
 			if PT1X.value=="ON" then v.Points[1].x = PT1x.value end
 			if PT1Y.value=="ON" then v.Points[1].y = PT1y.value end
 			if PT1Z.value=="ON" then v.Points[1].z = PT1z.value end
@@ -113,7 +166,6 @@ Class = {
 ENT.Class:met(Class);
 
 function Class:on_edit()
-trace_out('on_edit\n');
 	pop();
 end
 
@@ -139,6 +191,7 @@ Starts.Create = function()
 	CMD.set{command=CREATE.new{class=Class:new{Color=Color}}:set_step_count(2)};
 end
 Starts.Property = function()
+	CMD.set_idle();
 	pop();
 end
 

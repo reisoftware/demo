@@ -11,7 +11,7 @@ local Path = 'cfg/Family/Lib/Park/'
 local Name = 'Cocos'
 Readme = {title=Name,icon=Path..Name..'.bmp',tip='',remark=''}
 
-function on_create(arg)
+function on_start(arg)
 	local ent = Fixed:new{}
 	ent:set_shape(reload(Path..Name..'_Shape'))
 	ent:set_mode_rendering()

@@ -1,6 +1,7 @@
 _ENV = module(...,ap.sys)
 
 function Property(sc)
+trace_out("on_edit");
 	require"sys.mgr".edit_property(sc);
 end
 
