@@ -43,6 +43,5 @@ Starts.Create = function (shape)
 end
 
 function on_start(arg)
-trace_out('Fixed/on_start()\n');
 	if type(Starts[arg.mode])=='function' then Starts[arg.mode](arg.shape) end
 end
