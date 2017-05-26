@@ -31,9 +31,9 @@ local function set_idle()
 end
 
 local tree_ = Tree:new();
-tree_:set_selection_cb(set_idle)
+-- tree_:set_selection_cb(set_idle)
 -- tree_:set_dlbtn(Action.Property)
-tree_:set_dlbtn(function() trace_out('tree_:set_dlbtn\n') Action.Property() end)
+-- tree_:set_dlbtn(function() trace_out('tree_:set_dlbtn\n') Action.Property() end)
 
 local Dlg = iup.frame{
 	tabtitle = "Family";
