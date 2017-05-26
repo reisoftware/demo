@@ -51,7 +51,7 @@ function pop()
 	local function init_tree()
 		tree_:init_path_data(
 			Pos..Path,
-			function(name,path,status)]
+			function(name,path,status)
 				if status==0 then 
 					return {}
 				else
