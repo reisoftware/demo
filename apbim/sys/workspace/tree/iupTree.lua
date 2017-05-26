@@ -847,7 +847,12 @@ end
 function Class:set_node_tip(str,id)
 	if not self.tree then return error('Please create tree firstly !') end 
 	local tree = self.tree
-	tree.tip = str
+	local t = self:get_node_data()
+	if t and t.tip then 
+		tree.tip = t.tip
+	else
+		tree.tip = str
+	end 
 end
 
 		
