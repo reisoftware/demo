@@ -217,6 +217,11 @@ return  {
   	 	 	 	name = "Add";
 				keyword ='AP.Family.Add';
   	 	 	};
+			{};
+			{
+				name = 'Create';
+				keyword = 'REI.Ap.FamilyCreate'
+			};
   	 	};
   	};
     {
