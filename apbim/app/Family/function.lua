@@ -22,7 +22,7 @@ local function start(mode)
 	if type(mod.Shape)=='table' then Fixed.on_start{mode=mode;shape=mod.Shape} return end
 end
 
-function Add()
+function Create()
 	start'Create'
 end
 

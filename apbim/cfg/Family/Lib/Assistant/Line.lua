@@ -188,7 +188,7 @@ end
 
 Starts = {}
 Starts.Create = function()
-	CMD.set{command=CREATE.new{class=Class:new{Color=Color}}:set_step_count(2)};
+	CMD.set{command=CREATE.new{class=Class:new{Color={Color.r,Color.g,Color.b}}}:set_step_count(2)};
 end
 Starts.Property = function()
 	CMD.set_idle();
