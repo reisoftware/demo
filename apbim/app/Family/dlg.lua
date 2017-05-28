@@ -44,6 +44,11 @@ tree_:set_rmenu{
 		action = function() Action.Property() end;
 	};
 	{
+		title = "Make";
+		-- action = Action.Action;
+		action = function() Action.Make() end;
+	};
+	{
 		title = "Create";
 		-- action = Action.Action;
 		action = function() Action.Create() end;
