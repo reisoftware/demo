@@ -43,10 +43,10 @@ function Make()
 	if type(s)~='table' then return end
 	local ds,ws,rs = {},{},{};
 	for k,v in pairs(s) do
-		if type(v.on_draw)=='function' then
-			table.insert(ds,v:on_draw{mode='Diagram'});
-			table.insert(ws,v:on_draw{mode='Wireframe'});
-			table.insert(rs,v:on_draw{mode='Rendering'});
+		if type(v.get_shape)=='function' then
+			table.insert(ds,v:get_shape{mode='Diagram'});
+			table.insert(ws,v:get_shape{mode='Wireframe'});
+			table.insert(rs,v:get_shape{mode='Rendering'});
 		end
 	end
 	local shape = {};
