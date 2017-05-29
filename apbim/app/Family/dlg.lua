@@ -39,6 +39,11 @@ tree_:set_selection_cb(set_idle)
 tree_:set_dlbtn(function() trace_out('tree_:set_dlbtn\n') Action.Property() end)
 tree_:set_rmenu{
 	{
+		title = "Lib";
+		-- action = Action.Action;
+		action = function() Action.Lib() end;
+	};
+	{
 		title = "Property";
 		-- action = Action.Action;
 		action = function() Action.Property() end;
