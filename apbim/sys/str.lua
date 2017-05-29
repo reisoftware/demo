@@ -71,10 +71,10 @@ function get_exname(file)
 end
 
 -- D:\\ABC\\t1.lua --> t1
-function get_prename(file)
+function get_name(file)
 	local filename = get_filename(file)
 	local exname = get_exname(file)
-	return string.sub(filename,1,string.len(exname)-2)
+	return string.sub(filename,1,-2-string.len(exname))
 end
 
 function get_pathname(path,name) 

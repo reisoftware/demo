@@ -37,7 +37,7 @@ end
 
 function Make()
 	local file = IUP.save_file_dlg{extension='lua',directory='cfg/Family/Lib/'};
-	local name = STR.get_prename(file);
+	local name = STR.get_name(file);
 	if not file then return end
 	local s = Mgr.curs();
 	if type(s)~='table' then return end
