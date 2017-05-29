@@ -1,5 +1,7 @@
 _ENV = module(...,ap.adv)
 
+local SHAPE = require'sys.api.shape'
+
 Diagram = "Diagram";
 Wireframe = "Wireframe";
 Rendering = "Rendering";
@@ -115,13 +117,16 @@ end
 
 function Class:get_shape(arg)
 	if type(self)~="table" then return nil end
-	if type(self.on_draw)=="function" then return self:on_draw(arg) end
+	local shp = type(self.on_draw)=="function" and self:on_draw(arg)
+	local crd = type(self.on_place)=="function" and self:on_place()
+	if type(shp)=='table' and type(crd)=='table' then SHAPE.coord_l2g(shp,crd) end
+	return shp
 end
 
-function Class:get_placement()
-	if type(self)~="table" then return nil end
-	if type(self.on_place)=="function" then return self:on_place() end
-end
+-- function Class:get_placement()
+	-- if type(self)~="table" then return nil end
+	-- if type(self.on_place)=="function" then return self:on_place() end
+-- end
 
 --------Color--------
 

@@ -4,6 +4,7 @@ local trace_out = trace_out
 
 _ENV = module(...)
 
+local TAB = require'sys.api.table'
 local CMD = require'sys.cmd'
 local CREATE = require'app.Edit.Create'
 
@@ -23,7 +24,7 @@ function Class:on_draw(arg)
 	if type(arg)~='table' then return end
 	if type(arg.mode)~='string' then return end
 	if type(self.Shape)~='table' then return end
-	return self.Shape[arg.mode];
+	return TAB.deepcopy(self.Shape[arg.mode]);
 end
 
 function Class:on_place()
@@ -32,6 +33,25 @@ end
 
 function Class:set_shape(t)
 	self.Shape = t;
+	self:modify();
+end
+
+function Class:set_shape_diagram(t)
+	if type(self.Shape)~='table' then self.Shape = {} end
+	self.Shape.Diagram = t;
+	self:modify();
+end
+
+function Class:set_shape_wireframe(t)
+	if type(self.Shape)~='table' then self.Shape = {} end
+	self.Shape.Wireframe = t;
+	self:modify();
+end
+
+function Class:set_shape_rendering(t)
+	if type(self.Shape)~='table' then self.Shape = {} end
+	self.Shape.Rendering = t;
+	self:modify();
 end
 
 Starts = {}
