@@ -21,39 +21,17 @@ function Class:on_edit()
 	-- require"app/Graphics/line_dlg".pop();
 end
 
-function Class:on_draw(arg)
-	if type(arg)~='table' then return end
-	if type(arg.mode)~='string' then return end
-	if type(self.Shape)~='table' then return end
-	return TAB.deepcopy(self.Shape[arg.mode]);
-end
+-- function Class:on_draw(arg)
+	-- if type(arg)~='table' then return end
+	-- if type(arg.mode)~='string' then return end
+	-- if type(self.Shape)~='table' then return end
+	-- return TAB.deepcopy(self.Shape[arg.mode]);
+-- end
 
 function Class:on_place()
 	return {base=self.Points[1] or {0,0,0}};
 end
 
-function Class:set_shape(t)
-	self.Shape = t;
-	self:modify();
-end
-
-function Class:set_shape_diagram(t)
-	if type(self.Shape)~='table' then self.Shape = {} end
-	self.Shape.Diagram = t;
-	self:modify();
-end
-
-function Class:set_shape_wireframe(t)
-	if type(self.Shape)~='table' then self.Shape = {} end
-	self.Shape.Wireframe = t;
-	self:modify();
-end
-
-function Class:set_shape_rendering(t)
-	if type(self.Shape)~='table' then self.Shape = {} end
-	self.Shape.Rendering = t;
-	self:modify();
-end
 
 Starts = {}
 Starts.Create = function (shape)
