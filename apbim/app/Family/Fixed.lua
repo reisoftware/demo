@@ -4,9 +4,10 @@ local trace_out = trace_out
 
 _ENV = module(...)
 
-local TAB = require'sys.api.table'
+local TAB = require'sys.table'
 local CMD = require'sys.cmd'
 local CREATE = require'app.Edit.Create'
+
 
 Class = {
 	Classname = "app/Family/Fixed";
