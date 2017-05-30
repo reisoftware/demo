@@ -1,5 +1,8 @@
 _ENV = module(...,ap.adv)
 
+local TAB = require'sys.table'
+local SHP = require'sys.api.shape'
+
 Diagram = "Diagram";
 Wireframe = "Wireframe";
 Rendering = "Rendering";
@@ -21,7 +24,7 @@ function Class:on_draw(arg)end
 -- function Class:on_draw_diagram()end
 -- function Class:on_draw_wireframe()end
 -- function Class:on_draw_rendering()end
-
+function Class:update_data()end
 
 --------Hidden--------
 
@@ -113,14 +116,47 @@ end
 
 --------Shape--------
 
+-- function Class:get_placement()
+	-- if type(self)~="table" then return nil end
+	-- if type(self.on_place)=="function" then return self:on_place() end
+-- end
+
 function Class:get_shape(arg)
 	if type(self)~="table" then return nil end
-	if type(self.on_draw)=="function" then return self:on_draw(arg) end
+	if type(arg)~='table' then return end
+	if type(arg.mode)~='string' then return end
+	local shp = nil;
+	if type(self.Shape)=='table' and type(self.Shape[arg.mode])=='table' then 
+		shp = TAB.deepcopy(self.Shape[arg.mode]) 
+	elseif type(self.on_draw)=="function" then
+		shp = self:on_draw(arg)
+	end
+	local crd = type(self.on_place)=="function" and self:on_place()
+	if type(shp)=='table' and type(crd)=='table' then SHP.coord_l2g(shp,crd) end
+	return shp
 end
 
-function Class:get_placement()
-	if type(self)~="table" then return nil end
-	if type(self.on_place)=="function" then return self:on_place() end
+function Class:set_shape(t)
+	self.Shape = t;
+	self:modify();
+end
+
+function Class:set_shape_diagram(t)
+	if type(self.Shape)~='table' then self.Shape = {} end
+	self.Shape.Diagram = t;
+	self:modify();
+end
+
+function Class:set_shape_wireframe(t)
+	if type(self.Shape)~='table' then self.Shape = {} end
+	self.Shape.Wireframe = t;
+	self:modify();
+end
+
+function Class:set_shape_rendering(t)
+	if type(self.Shape)~='table' then self.Shape = {} end
+	self.Shape.Rendering = t;
+	self:modify();
 end
 
 --------Color--------

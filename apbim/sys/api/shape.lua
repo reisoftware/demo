@@ -79,6 +79,14 @@ local function xyz_l2g(pt, crd)
 	pt[8] = p.z;
 end
 
+local function xyz_g2l(pt, crd)
+	local p = {pt[6], pt[7], pt[8]};
+	p = crd:g2l(p);
+	pt[6] = p.x;
+	pt[7] = p.y;
+	pt[8] = p.z;
+end
+
 local function xyz_move(pt, off)
 	pt[6] = pt[6]+off.x;
 	pt[7] = pt[7]+off.y;
@@ -120,6 +128,14 @@ function coord_l2g(obj, crd)
 	if type(crd)~="table" then return end
 	geo_.Coord:new(crd);
 	loop_point_object(obj, xyz_l2g, crd);
+	return obj;
+end
+
+function coord_g2l(obj, crd)
+	if type(obj)~="table" then return end
+	if type(crd)~="table" then return end
+	geo_.Coord:new(crd);
+	loop_point_object(obj, xyz_g2l, crd);
 	return obj;
 end
 

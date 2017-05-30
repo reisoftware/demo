@@ -186,8 +186,13 @@ return {
 			image = 33;
 		};
 		{
-			name = 'Add Family';
-			keyword = 'AP.Family.Add';
+			name = 'Make Family';
+			keyword = 'AP.Family.Make';
+			image = 34;
+		};
+		{
+			name = 'Create Family';
+			keyword = 'AP.Family.Create';
 			image = 33;
 		};
 	};

@@ -37,6 +37,28 @@ local tree_ = Tree:new();
 tree_:set_selection_cb(set_idle)
 -- tree_:set_dlbtn(Action.Property)
 tree_:set_dlbtn(function() trace_out('tree_:set_dlbtn\n') Action.Property() end)
+tree_:set_rmenu{
+	{
+		title = "Lib";
+		-- action = Action.Action;
+		action = function() Action.Lib() end;
+	};
+	{
+		title = "Property";
+		-- action = Action.Action;
+		action = function() Action.Property() end;
+	};
+	{
+		title = "Make";
+		-- action = Action.Action;
+		action = function() Action.Make() end;
+	};
+	{
+		title = "Create";
+		-- action = Action.Action;
+		action = function() Action.Create() end;
+	};
+}
 
 local Dlg = iup.frame{
 	tabtitle = "Family";

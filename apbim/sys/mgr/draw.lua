@@ -31,10 +31,11 @@ local get_object_by_mode_ = {};
 get_object_by_mode_.Diagram = function(ent,light,sc)
 	local diagram = ENT.get_shape(ent,{mode='Diagram'});
 	if type(diagram)~="table" then return end
-	local obj = TAB.deepcopy(diagram);
+	local obj = diagram;
+	-- local obj = TAB.deepcopy(diagram);
 	
-	local crd = ENT.get_placement(ent);
-	if type(crd)=='table' then SHAPE.coord_l2g(obj,crd) end
+	-- local crd = ENT.get_placement(ent);
+	-- if type(crd)=='table' then SHAPE.coord_l2g(obj,crd) end
 	
 	local cr = VIEW.get_color(sc,ent.mgrid);
 	if type(cr)=="table" then SHAPE.color_to(obj,require"sys.geometry".Color:new(cr):get_gl()) end
@@ -46,10 +47,11 @@ end
 get_object_by_mode_.Wireframe = function(ent,light,sc)
 	local wireframe = ENT.get_shape(ent,{mode='Wireframe'});
 	if type(wireframe)~="table" then return get_object_by_mode_.Diagram(ent,light) end
-	local obj = TAB.deepcopy(wireframe);
+	local obj = wireframe;
+	-- local obj = TAB.deepcopy(wireframe);
 	
-	local crd = ENT.get_placement(ent);
-	if type(crd)=='table' then SHAPE.coord_l2g(obj,crd) end
+	-- local crd = ENT.get_placement(ent);
+	-- if type(crd)=='table' then SHAPE.coord_l2g(obj,crd) end
 	
 	local cr = VIEW.get_color(sc,ent.mgrid);
 	if type(cr)=="table" then SHAPE.color_to(obj,require"sys.geometry".Color:new(cr):get_gl()) end
@@ -60,10 +62,11 @@ end
 get_object_by_mode_.Rendering = function(ent,light,sc)
 	local rendering = ENT.get_shape(ent,{mode='Rendering'});
 	if type(rendering)~="table" then return get_object_by_mode_.Diagram(ent,light) end
-	local body = TAB.deepcopy(rendering);
+	local body = rendering;
+	-- local body = TAB.deepcopy(rendering);
 
-	local crd = ENT.get_placement(ent);
-	if type(crd)=='table' then SHAPE.coord_l2g(body,crd) end
+	-- local crd = ENT.get_placement(ent);
+	-- if type(crd)=='table' then SHAPE.coord_l2g(body,crd) end
 	
 	local cr = VIEW.get_color(sc,ent.mgrid);
 	if type(cr)=="table" then SHAPE.color_to(body,require"sys.geometry".Color:new(cr):get_gl()) end
@@ -71,9 +74,10 @@ get_object_by_mode_.Rendering = function(ent,light,sc)
 
 	local wireframe = ENT.get_shape(ent,{mode='Wireframe'});
 	if type(wireframe)~="table" then return body end
-	local side = TAB.deepcopy(wireframe);
+	local side = wireframe;
+	-- local side = TAB.deepcopy(wireframe);
 	
-	if type(crd)=='table' then SHAPE.coord_l2g(side,crd) end
+	-- if type(crd)=='table' then SHAPE.coord_l2g(side,crd) end
 
 	if light then SHAPE.color_to(side,side_light_) else SHAPE.color_to(side,side_dark_) end
 	return SHAPE.merge{body,side};

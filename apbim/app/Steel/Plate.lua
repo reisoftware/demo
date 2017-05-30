@@ -21,29 +21,32 @@ function Class:on_write_info()
 	end
 end
 
-function Class:on_draw_diagram()
-	local cr = require"sys.geometry".Color:new(self.Color):get_gl()
-	local obj = {surfaces={{points={},lines={}}}};
-	local s = self:get_pts();
-	if type(s)~="table" then return end
-	if #s<3 then return end
-	for i,v in ipairs(s) do
-		local pt = {cr.r,cr.g,cr.b,1,1,v.x,v.y,v.z}
-		local pt1 = i;
-		local pt2 = i+1<=#s and i+1 or i+1-#s;
-		table.insert(obj.surfaces[1].points,pt);
-		table.insert(obj.surfaces[1].lines,{pt1,pt2});
+function Class:on_draw(arg)
+	local fs = {};
+	fs.Diagram = function()
+		local cr = require"sys.geometry".Color:new(self.Color):get_gl()
+		local obj = {surfaces={{points={},lines={}}}};
+		local s = self:get_pts();
+		if type(s)~="table" then return end
+		if #s<3 then return end
+		for i,v in ipairs(s) do
+			local pt = {cr.r,cr.g,cr.b,1,1,v.x,v.y,v.z}
+			local pt1 = i;
+			local pt2 = i+1<=#s and i+1 or i+1-#s;
+			table.insert(obj.surfaces[1].points,pt);
+			table.insert(obj.surfaces[1].lines,{pt1,pt2});
+		end
+		return obj;
 	end
-	self:set_shape_diagram(obj);
+	fs.Wireframe = function()
+		return require"app.Steel.shape".draw_plate(self,"wireframe");
+	end
+	fs.Rendering = function()
+		return require"app.Steel.shape".draw_plate(self,"rendering");
+	end
+	if type(fs[arg.mode])=='function' then return fs[arg.mode]() end
 end
 
-function Class:on_draw_wireframe()
-	self:set_shape_wireframe(require"app.Steel.shape".draw_plate(self,"wireframe"));
-end
-
-function Class:on_draw_rendering()
-	self:set_shape_rendering(require"app.Steel.shape".draw_plate(self,"rendering"));
-end
 
 function Class:get_alignment_text()
 	if type(self.Alignment)~="number" then return "Center" end

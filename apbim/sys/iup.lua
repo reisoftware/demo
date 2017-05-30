@@ -8,7 +8,7 @@ function open_file_dlg(t)
 	local directory = t and t.directory or "";
 	
 	local dlg = require"iuplua".filedlg{ filter = "*." .. extension , filterinfo = extension .." files",directory =directory;NOCHANGEDIR = "YES"}
-    local file = "";
+    local file = nil;
 	dlg:popup()
     if dlg.status ~= "-1" then
         file = dlg.value;
@@ -22,7 +22,7 @@ function save_file_dlg(t)
 	local directory = t and t.directory or "";
 
     local dlg = require"iuplua".filedlg{ dialogtype="SAVE", filter = "*." .. extension , filterinfo = extension .." files",directory =directory;NOCHANGEDIR = "YES"}
-	local file = "";
+	local file = nil;
     dlg:popup()
     if dlg.status ~= "-1" then
         file = dlg.value

@@ -19,8 +19,13 @@ function on_load()
 		view = true;
 	}
 	MENU.add{
-		keyword = 'AP.Family.Add';
-		action = Action.Add;
+		keyword = 'AP.Family.Make';
+		action = Action.Make;
+		view = true;
+	}
+	MENU.add{
+		keyword = 'AP.Family.Create';
+		action = Action.Create;
 		view = true;
 	}
 end
