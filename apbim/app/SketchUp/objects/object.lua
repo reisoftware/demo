@@ -92,17 +92,33 @@ function Class:init_surfaces()
 	return surfaces
 end
 
-function Class:on_draw_rendering()
-	if type(self.points) ~= 'table' then return end 
-	local obj = {}
-	obj.surfaces = self:init_surfaces() or {}
-	self:set_shape_rendering(obj)
+-- function Class:on_draw_rendering()
+	-- if type(self.points) ~= 'table' then return end 
+	-- local obj = {}
+	-- obj.surfaces = self:init_surfaces() or {}
+	-- self:set_shape_rendering(obj)
 	
+-- end
+
+-- function Class:on_draw_diagram()
+	-- if type(self.points) ~= 'table' then return end 
+	-- local obj = {}
+	-- obj.surfaces = self:init_lines_surfaces() or {}
+	-- self:set_shape_diagram(obj)
+-- end
+
+function Class:on_draw(arg)
+	if type(self.points) ~= 'table' then return end 	
+	local obj = {}
+	local fs = {};
+	fs.Wireframe = function()
+		obj.surfaces = self:init_lines_surfaces()
+		return obj
+	end
+	fs.Rendering = function()
+		obj.surfaces =  self:init_surfaces() or {}
+		return obj
+	end
+	if type(fs[arg.mode])=='function' then return fs[arg.mode]() end
 end
 
-function Class:on_draw_diagram()
-	if type(self.points) ~= 'table' then return end 
-	local obj = {}
-	obj.surfaces = self:init_lines_surfaces() or {}
-	self:set_shape_diagram(obj)
-end
