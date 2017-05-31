@@ -176,7 +176,7 @@ return {
 		};
 		{};
 		{
-			name = 'Family Lib';
+			name = 'Show Family';
 			keyword = 'AP.Family.Lib';
 			image = 34;
 		};

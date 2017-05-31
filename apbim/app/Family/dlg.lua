@@ -25,7 +25,7 @@ local Tree = require'sys.workspace.tree.iupTree'.Class
 local Action = require'app.Family.function'
 
 local Pos = ''
-local Path = 'cfg/Family/Lib/'
+local Path = 'cfg/Family/'
 local Exname = 'lua'
 local DotExname = '.'..Exname
 
@@ -39,7 +39,7 @@ tree_:set_selection_cb(set_idle)
 tree_:set_dlbtn(function() trace_out('tree_:set_dlbtn\n') Action.Property() end)
 tree_:set_rmenu{
 	{
-		title = "Lib";
+		title = "Show";
 		-- action = Action.Action;
 		action = function() Action.Lib() end;
 	};

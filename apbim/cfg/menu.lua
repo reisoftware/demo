@@ -206,7 +206,7 @@ return  {
   	 	name = "Family";
   	 	subs = {
   	 	 	{
-  	 	 	 	name = "Lib";
+  	 	 	 	name = "Show";
 				keyword ='AP.Family.Lib';
   	 	 	};
   	 	 	{
