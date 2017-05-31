@@ -70,9 +70,9 @@ local function init_shape(entities)
 	for k,v in pairs(entities) do
 		local ent = mgr_.get_table(k,v)
 		if type(ent.on_draw) == 'function' then 
-			insert_surface(shape.Diagrame.surfaces,ent:on_draw{mode = 'Diagrame'})
-			insert_surface(shape.Wireframe.surfaces,ent:on_draw{mode = 'Wireframe'})
-			insert_surface(shape.Rendering.surfaces,ent:on_draw{mode = 'Rendering'})
+			insert_surface(shape.Diagrame.surfaces,ent:get_shape{mode = 'Diagrame'})
+			insert_surface(shape.Wireframe.surfaces,ent:get_shape{mode = 'Wireframe'})
+			insert_surface(shape.Rendering.surfaces,ent:get_shape{mode = 'Rendering'})
 		end
 	end 
 	return shape
@@ -85,7 +85,7 @@ local function create_family_file(data,entities)
 	t.Shape = init_shape(entities)
 	local filename =default_path_ ..  data.path .. data.title .. '.lua'
 	table_.save{file = filename,returnKey = true ,data = t}
-	require 'sys.table'.tofile{file = filename .. '.lua',returnKey = true ,src = t}
+	-- require 'sys.table'.tofile{file = filename .. '.lua',returnKey = true ,src = t}
 end
 
 local function create_family()
