@@ -44,14 +44,15 @@ tree_:set_rmenu{
 		action = function() Action.Lib() end;
 	};
 	{
-		title = "Property";
-		-- action = Action.Action;
-		action = function() Action.Property() end;
-	};
-	{
 		title = "Make";
 		-- action = Action.Action;
 		action = function() Action.Make() end;
+	};
+	"";
+	{
+		title = "Property";
+		-- action = Action.Action;
+		action = function() Action.Property() end;
 	};
 	{
 		title = "Create";
