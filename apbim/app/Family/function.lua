@@ -43,7 +43,7 @@ function Make()
 	-- Fixed_Dlg.pop();
 	local function make(pts)
 		local crd = {base=pts[1]};
-		local file = IUP.save_file_dlg{extension='lua',directory='cfg/Family/Lib/'};
+		local file = IUP.save_file_dlg{extension='lua',directory='cfg/Family/'};
 		local name = STR.get_name(file);
 		if not file then return end
 		local s = Mgr.curs();

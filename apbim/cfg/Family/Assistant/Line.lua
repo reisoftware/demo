@@ -13,7 +13,7 @@ local CREATE = require'app.Edit.Create'
 
 local iup = require"iuplua"
 
-local Path = 'cfg/Family/Lib/Assistant/'
+local Path = 'cfg/Family/Assistant/'
 local Name = 'Line'
 Readme = {title=Name,icon=Path..Name..'.bmp',tip='',remark=''}
 
