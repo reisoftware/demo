@@ -2,6 +2,7 @@ local string = string
 local print = print
 local type = type
 local require =require
+local tonumber = tonumber
 local M = {}
 local modname = ...
 _G[modname] = M
@@ -23,7 +24,7 @@ local language_package_ = {
 	sel = {English = 'Select',Chinese = '选择'};
 	select_objects = {English = 'Selected Objects',Chinese = '选中的对象'};
 	select_all = {English = 'All',Chinese = '全部'};
-
+	select_base_pt =  {English = 'Setting Origin',Chinese = '全部'};
 }
 
 local lab_wid = '50x'
@@ -42,12 +43,15 @@ local frame_ = iup.frame{
 	txt_remark_;
 }
 
+local txt_step_ = iup.text{rastersize = '100x',FILTER = 'NUMBER',expand = 'yes'}
+
 local btn_wid = '100x'
 local btn_ok_ = iup.button{rastersize = btn_wid}
 local btn_cancel_ = iup.button{rastersize = btn_wid}
 
 local tog_selected_ = iup.toggle{fontsize = 12}
 local tog_all_ = iup.toggle{fontsize = 12}
+local tog_select_pt_ = iup.toggle{fontsize = 12}
 
 local radio_sel_= iup.radio{
 	iup.hbox{
@@ -65,8 +69,8 @@ local dlg_ = iup.dialog{
 		iup.hbox{lab_path_,txt_path_};
 		iup.hbox{lab_image_,txt_image_,btn_image_};
 		iup.hbox{frame_};
-
-		iup.hbox{tog_selected_,iup.fill{},btn_ok_,btn_cancel_};
+		iup.hbox{iup.fill{},tog_selected_,iup.fill{},tog_select_pt_,txt_step_,iup.fill{},};
+		iup.hbox{btn_ok_,btn_cancel_};
 		margin ='10x10';
 		alignment = 'ARIGHT';
 	};
@@ -123,9 +127,14 @@ local function init_callback(arg)
 		t.icon = txt_image_.value
 		t.tip = txt_tip_.value
 		t.remark = txt_remark_.value
-		t.path = txt_path_.value
+		t.path = txt_path_.value ~= '' and string.gsub(txt_path_.value, '\\','/')
+		if string.sub(t.path,-1,-1) ~= '/' then 
+			t.path = t.path .. '/'
+		end
 		t.selected = tog_selected_.value == 'ON' and true or nil
 		t.warning = warning
+		t.origin = tog_select_pt_.value == 'ON' and true or nil
+		t.step =   tog_select_pt_.value == 'ON' and txt_step_.value ~= '' and tonumber(txt_step_.value) or nil
 		if not string.find(t.title,'%S+') then warning('title') return end 
 		if not string.find(t.path,'%S+') then warning('path')return end 
 		if not string.find(t.icon,'%S+') then warning('icon')return end 
@@ -164,6 +173,14 @@ local function init_callback(arg)
 	function btn_cancel_:action()
 		dlg_:hide()
 	end
+	
+	function tog_select_pt_:valuechanged_cb()
+		if self.value == 'ON' then 
+			txt_step_.active = 'yes'
+		else 
+			txt_step_.active = 'no'
+		end 
+	end
 end
 
 local function init_data(data)
@@ -174,6 +191,8 @@ local function init_data(data)
 	txt_tip_.value = t.tip
 	txt_remark_.value = t.remark
 	tog_selected_.value = 'ON'
+	tog_select_pt_.value = 'ON'
+	txt_step_.value = 1
 end
 
 function pop(arg)
@@ -193,7 +212,7 @@ function pop(arg)
 		btn_image_.title = language_package_.sel[lan]
 		tog_selected_.title = language_package_.select_objects[lan]
 		tog_all_.title = language_package_.select_all[lan]
-
+		tog_select_pt_.title = language_package_.select_base_pt[lan]
 	end
 	local function init()
 		init_title()

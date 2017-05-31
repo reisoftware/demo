@@ -20,7 +20,14 @@ local dlg_ = require 'app.FamilyCreate.dlg'
 local language_ = require 'sys.language'
 local table_ = require 'sys.api.code'
 local lfs = require 'lfs'
-local default_path_ = 'cfg/family/lib/'
+local default_path_ = 'cfg/family/'
+
+local STR = require'sys.str'
+local IUP = require'sys.iup'
+local TAB = require'sys.table'
+local CMD = require'sys.cmd'
+local SHP = require'sys.api.shape'
+local APPOINT = require'app.Edit.Appoint'
 
 
 local function table_is_empty(t)
@@ -42,7 +49,11 @@ local function init_readme(t)
 	if t.icon then 
 		local filename = string.match(t.icon,'.+/([^/]+)')
 		local newpath = default_path_ .. t.path .. filename
-		os_execute_('copy \"' .. t.icon .. '\" \"' .. newpath .. '\"')
+		-- local cur_dir = lfs.currentdir() .. '\\'
+		local icon = string.gsub(t.icon,'/','\\') 
+		local newpath = string.gsub(newpath,'/','\\')  
+		local str = 'copy /Y \"' .. icon .. '\" \"' .. newpath .. '\"'
+		os_execute_(str)
 		data.icon = newpath
 	end
 	data.tip = t.tip
@@ -88,6 +99,43 @@ local function create_family_file(data,entities)
 	-- require 'sys.table'.tofile{file = filename .. '.lua',returnKey = true ,src = t}
 end
 
+local function Make(data,entities)
+	local status = 0
+	local step = data.step or 1
+	local function make(pts)
+		if status == 0 then return end 
+		mkdir(data.path)
+		
+		local crd = {base=pts[1]};
+		-- create_family_file(t,entities)
+		local ds,ws,rs = {},{},{};
+		for k,v in pairs(entities) do
+			if type(v.get_shape)=='function' then
+				local Diagram = SHP.coord_g2l(v:get_shape{mode='Diagram'},crd)
+				local Wireframe = SHP.coord_g2l(v:get_shape{mode='Wireframe'},crd)
+				local Rendering = SHP.coord_g2l(v:get_shape{mode='Rendering'},crd)
+				table.insert(ds,Diagram)
+				table.insert(ws,Wireframe)
+				table.insert(rs,Rendering)
+			end
+		end
+		local shape = {};
+		shape.Diagram = SHP.merge(ds);
+		shape.Wireframe = SHP.merge(ws);
+		shape.Rendering = SHP.merge(rs);
+		local t = {}
+		t.Readme = init_readme(data)
+		t.Shape = shape
+		local filename =default_path_ ..  data.path .. data.title .. '.lua'
+		table_.save{file = filename,returnKey = true ,data = t}
+		status = 0
+	end
+	CMD.set{command=APPOINT.new{cbf=make}:set_step_count(step)};
+	status = 1
+end
+
+
+
 local function create_family()
 	local cur = language_.get()
 	
@@ -96,9 +144,15 @@ local function create_family()
 		if not sc then t.warning('sc') return end 
 		local entities = mgr_.get_all() or {}
 		if table_is_empty(entities) then t.warning('no') return	end
+		
 		if t.selected then 
 			entities = mgr_.curs() or {}
 			if table_is_empty(entities) then t.warning('no_selected') return end
+		end
+		if t.origin then 
+			
+			Make(t,entities)
+			return true
 		end
 		create_family_file(t,entities)
 		return true
@@ -108,6 +162,8 @@ local function create_family()
 		on_ok = on_ok;
 	}
 end
+
+
 
 function on_load()
 	menu_.add{
