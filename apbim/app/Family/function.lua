@@ -41,6 +41,11 @@ end
 
 function Make()
 	-- Fixed_Dlg.pop();
+	local function shape_insert(s,v,mode,crd)
+		local shape = v:get_shape{mode=mode};
+		shape = SHP.coord_g2l(shape,crd);
+		table.insert(s,shape);
+	end
 	local function make(pts)
 		local crd = {base=pts[1]};
 		local file = IUP.save_file_dlg{extension='lua',directory='cfg/Family/'};
@@ -51,9 +56,12 @@ function Make()
 		local ds,ws,rs = {},{},{};
 		for k,v in pairs(s) do
 			if type(v.get_shape)=='function' then
-				table.insert(ds,SHP.coord_g2l(v:get_shape{mode='Diagram'},crd));
-				table.insert(ws,SHP.coord_g2l(v:get_shape{mode='Wireframe'},crd));
-				table.insert(rs,SHP.coord_g2l(v:get_shape{mode='Rendering'},crd));
+				shape_insert(ds,v,'Diagram',crd);
+				shape_insert(ws,v,'Wireframe',crd);
+				shape_insert(rs,v,'Rendering',crd);
+				-- table.insert(ds,SHP.coord_g2l(v:get_shape{mode='Diagram'},crd));
+				-- table.insert(ws,SHP.coord_g2l(v:get_shape{mode='Wireframe'},crd));
+				-- table.insert(rs,SHP.coord_g2l(v:get_shape{mode='Rendering'},crd));
 			end
 		end
 		local shape = {};
