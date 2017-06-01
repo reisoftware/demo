@@ -7,7 +7,7 @@ local CMD = require'sys.cmd'
 local CREATE = require'app.Edit.Create'
 local Fixed = require'app.Family.Fixed'.Class
 
-local Path = 'cfg/Family/Lib/Park/'
+local Path = 'cfg/Family/Park/'
 local Name = 'Tree'
 local Shape = {
 	Diagram = {

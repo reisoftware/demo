@@ -17,7 +17,7 @@ local Plate = require'app.Steel.Plate'.Class
 
 local iup = require"iuplua"
 
-local Path = 'cfg/Family/Lib/Structure/'
+local Path = 'cfg/Family/Structure/'
 local Name = 'QM'
 Readme = {title=Name,icon=Path..Name..'.bmp',tip='',remark=''}
 

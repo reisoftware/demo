@@ -43,7 +43,7 @@ function Make()
 	-- Fixed_Dlg.pop();
 	local function make(pts)
 		local crd = {base=pts[1]};
-		local file = IUP.save_file_dlg{extension='lua',directory='cfg/Family/Lib/'};
+		local file = IUP.save_file_dlg{extension='lua',directory='cfg/Family/'};
 		local name = STR.get_name(file);
 		if not file then return end
 		local s = Mgr.curs();
@@ -60,13 +60,7 @@ function Make()
 		shape.Diagram = Shp.merge(ds);
 		shape.Wireframe = Shp.merge(ws);
 		shape.Rendering = Shp.merge(rs);
-		local Template = {
-			Readme = {
-				title = name;
-			};
-			Shape = shape;
-		};
-		TAB.save{dat=Template,file=file,key='This',ret=true};
+		TAB.save{dat={Readme={title=name},Shape=shape},file=file,key='This',ret=true};
 	end
 	CMD.set{command=APPOINT.new{cbf=make}:set_step_count(1)};
 end

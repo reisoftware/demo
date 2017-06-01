@@ -6,7 +6,7 @@ local CMD = require'sys.cmd'
 local CREATE = require'app.Edit.Create'
 local Member = require"app.Steel.Member".Class;
 
-local Path = 'cfg/Family/Lib/Structure/'
+local Path = 'cfg/Family/Structure/'
 local Name = 'Column'
 Readme = {title=Name,icon=Path..Name..'.bmp',tip='',remark=''}
 
