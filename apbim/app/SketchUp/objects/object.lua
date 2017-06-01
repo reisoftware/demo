@@ -88,7 +88,7 @@ function Class:init_surfaces()
 	surface.inners = self.face_inners
 	--save_obj_.add_face_surface(surface)
 	table.insert(surfaces,surface)
-	self:init_lines_surfaces(surfaces)
+	--self:init_lines_surfaces(surfaces)
 	return surfaces
 end
 
