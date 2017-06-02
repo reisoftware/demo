@@ -89,6 +89,15 @@ return  {
   	 	 	 	keyword ='AP.View.Fit';
   	 	 	};
 			{};
+  	 	 	{
+  	 	 	 	name = "Zoomin";
+  	 	 	 	keyword ='AP.View.Zoomin';
+  	 	 	};
+  	 	 	{
+  	 	 	 	name = "Zoomout";
+  	 	 	 	keyword ='AP.View.Zoomout';
+  	 	 	};
+			{};
 			{
 				name = "Default";
 				keyword ='AP.View.Mode.Default';

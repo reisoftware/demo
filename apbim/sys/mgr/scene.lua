@@ -313,12 +313,18 @@ function to_right(sc)
 end
 
 ---[[
-function scale(sc,num)
+function set_scale(sc,num)
 	sc = sc or get_current();
 	local t = get_scene_t(sc);
 	t.scale = num or 0.037;
 	set_scene_t(sc,t);
 	return sc;
+end
+
+function get_scale(sc)
+	sc = sc or get_current();
+	local t = get_scene_t(sc);
+	return t.scale;
 end
 
 function center(sc,pt)

@@ -1,5 +1,7 @@
 _ENV = module(...,ap.adv)
 
+local MGR = require'sys.mgr'
+
 Class = {
 	Classname = "app/Steel/Member";
 	-- Points={[1],[2],[3],...};
@@ -21,6 +23,8 @@ end
 function Class:on_draw(arg)
 -- require'sys.table'.totrace{arg=arg}
 	if not self.Points[2] then self.Points[2] = {self.Points[1].x,self.Points[1].y,self.Points[1].z+3300} end
+	local zoom = MGR.scene_get_scale{};
+	-- local mode =  zoom>0.01 and arg.mode or 'Diagram'
 	return require"app.Steel.shape".draw_member(self,string.lower(arg.mode));
 end
 

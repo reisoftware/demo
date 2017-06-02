@@ -1,5 +1,7 @@
 _ENV = module(...,ap.adv)
 
+local MGR = require'sys.mgr'
+local VIEW = require'sys.View'
 
 -- function New(sc,id)
 	-- if not id then sc = nil end;
@@ -13,71 +15,83 @@ _ENV = module(...,ap.adv)
 -- end
 function New(sc,id)
 	sc = id and sc or nil;
-	local ents = require"sys.mgr".curs();
-	require"sys.View".new_view{ents=ents,scene=sc};
+	local ents = MGR.curs();
+	VIEW.new_view{ents=ents,scene=sc};
 end
 
 function Fit(sc)
-	require"sys.mgr".scene_to_fit{scene=sc,ents=require"sys.mgr".get_scene_all(sc)};
-	require"sys.mgr".update(sc);
+	MGR.scene_to_fit{scene=sc,ents=MGR.get_scene_all(sc)};
+	MGR.update(sc);
 end
 
 
 --[[
 local function Show(sc)
-	local ents = require"sys.mgr".get_scene_all();
+	local ents = MGR.get_scene_all();
 	if not ents then return end
 	local run = require"sys.progress".create{title="All",count=require"sys.table".count(ents),time=1};
 	for k,v in pairs(ents) do
-		v = require"sys.mgr".get_table(k,v);
+		v = MGR.get_table(k,v);
 		if require"sys.Entity".Class.is_hidden(v) then 
 			require"sys.Entity".Class.show(v);
-			require"sys.mgr".redraw(v,sc);
+			MGR.redraw(v,sc);
 		end
 		run();
 	end
-	require"sys.mgr".update();
+	MGR.update();
 end
 
 local function Hide(sc)
-	local ents = require"sys.mgr".curs();
+	local ents = MGR.curs();
 	if not ents then return end
 	local run = require"sys.progress".create{title="Hide",count=require"sys.table".count(ents),time=1};
 	for k,v in pairs(ents) do
 		if not require"sys.Entity".Class.is_hidden(v) then 
 			require"sys.Entity".Class.hide(v);
-			require"sys.mgr".redraw(v,sc);
+			MGR.redraw(v,sc);
 		end
 		run();
 	end
-	require"sys.mgr".update();
+	MGR.update();
 end
 --]]
 
 function Show(sc)
-	sc = sc or require"sys.mgr".get_cur_scene();
-	local ents = require"sys.mgr".curs();
+	sc = sc or MGR.get_cur_scene();
+	local ents = MGR.curs();
 	if not ents then return end
 	local run = require"sys.progress".create{title="Hide",count=require"sys.table".count(ents),time=1};
 	for k,v in pairs(ents) do
-		v = require"sys.mgr".get_table(k,v);
-		require"sys.mgr".draw(v,sc);
+		v = MGR.get_table(k,v);
+		MGR.draw(v,sc);
 		run();
 	end
-	require"sys.mgr".update();
+	MGR.update();
 end
 
 function Hide(sc)
-	sc = sc or require"sys.mgr".get_cur_scene();
-	local ents = require"sys.mgr".get_scene_selection();
+	sc = sc or MGR.get_cur_scene();
+	local ents = MGR.get_scene_selection();
 	if not ents then return end
 	local run = require"sys.progress".create{title="Hide",count=require"sys.table".count(ents),time=1};
 	for k,v in pairs(ents) do
-		v = require"sys.mgr".get_table(k,v);
-		require"sys.mgr".hide(v,sc);
+		v = MGR.get_table(k,v);
+		MGR.hide(v,sc);
 		run();
 	end
-	require"sys.mgr".update();
+	MGR.update();
+end
+
+function Zoomin(sc)
+	local zoom = MGR.scene_get_scale{scene=sc}
+	zoom = zoom * 1.1;
+	MGR.scene_set_scale{scene=sc,zoom=zoom,update=true}
+end
+
+function Zoomout(sc)
+	local zoom = MGR.scene_get_scale{scene=sc}
+	zoom = zoom / 1.1;
+	MGR.scene_set_scale{scene=sc,zoom=zoom,update=true}
 end
 
 function load()
