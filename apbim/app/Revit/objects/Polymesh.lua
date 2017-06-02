@@ -90,12 +90,14 @@ function Class:init_surfaces(data,line)
 			table.insert(surface.points,m,pts[n])
 			if not line then 
 				table.insert(surface.outer,m)
+			else
+				if m~= #v then 
+					table.insert(surface.lines,{m,m+1})
+				else 
+					table.insert(surface.lines,{#surface.points,1})
+				end
 			end
-			if m~= #v then 
-				table.insert(surface.lines,{m,m+1})
-			else 
-				table.insert(surface.lines,{#surface.points,1})
-			end
+			
 		end
 		table.insert(surfaces,surface)
 	end
@@ -115,4 +117,23 @@ function Class:on_draw_diagram()
 	local obj = {}
 	obj.surfaces = self:init_surfaces(self.data,'line') or {}
 	self:set_shape_diagram(obj)
+end
+
+function Class:on_draw(arg)
+	if type(self.data) ~= 'table' then return end 
+	local obj = {}
+	local fs = {};
+	fs.Diagram = function()
+		-- obj.surfaces =  self:init_surfaces(self.data,'line') or {}
+		return obj
+	end
+	fs.Wireframe = function()
+		obj.surfaces =  self:init_surfaces(self.data,'line') or {}
+		return obj
+	end
+	fs.Rendering = function()
+		obj.surfaces =  self:init_surfaces(self.data) or {}
+		return obj
+	end
+	if type(fs[arg.mode])=='function' then return fs[arg.mode]() end
 end
