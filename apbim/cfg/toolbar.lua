@@ -44,6 +44,17 @@ return {
 		};
 		{};
 		{
+			name = 'Zoomin';
+			keyword = 'AP.View.Zoomin',
+			image = 9;
+		};
+		{
+			name = 'Zoomout';
+			keyword = 'AP.View.Zoomout',
+			image = 9;
+		};
+		{};
+		{
 			name = 'Default View';
 			keyword = 'AP.View.Mode.Default',
 			image = 10;

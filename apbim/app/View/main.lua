@@ -29,6 +29,16 @@ function on_load()
 		view = true,
 	}
 	Menu.add{
+		keyword = 'AP.View.Zoomin',
+		action = Action.Zoomin;
+		view = true,
+	}
+	Menu.add{
+		keyword = 'AP.View.Zoomout',
+		action = Action.Zoomout;
+		view = true,
+	}
+	Menu.add{
 		keyword = 'AP.View.Mode.Default',
 		action = function(sc)MGR.scene_to_default{scene=sc,update=true}end;
 		view = true,

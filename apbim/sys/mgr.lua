@@ -296,12 +296,19 @@ function scene_to_right(t)
 	if t.update then update(t.scene) end
 end
 
--- t={scene=,scale=,update=true}
-function scene_scale(t)
+-- t={scene=,zoom=,update=true}
+function scene_set_scale(t)
 	t = t or {};
 	t.scene = t.scene or scene_.get_current();
-	scene_.scale(t.scene,t.scale);
+	scene_.set_scale(t.scene,t.zoom);
 	if t.update then update(t.scene) end
+end
+
+-- t={scene=}
+function scene_get_scale(t)
+	t = t or {};
+	t.scene = t.scene or scene_.get_current();
+	return scene_.get_scale(t.scene);
 end
 
 -----------------------------
