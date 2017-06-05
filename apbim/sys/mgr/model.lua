@@ -1,5 +1,7 @@
 _ENV = module(...,ap.adv)
 
+local IFO = require'sys.mgr.ifo'
+
 local md_ = nil;
 
 --------------------------------------------------------
@@ -56,7 +58,7 @@ end
 --------------------------------------------------------
 
 function push_item(it)
-	it = require'sys.mgr.ifo'.new(it);
+	it = IFO.new(it);
 	local id = require'sys.mgr.db'.push_item(it);
 	if id==get():get_id() then set(it) else get():add_id(id); end
 	return id;
@@ -178,7 +180,7 @@ function update()
 	local hid = require'sys.mgr.version'.update_item(gid);
 	if not hid then return end;
 	local md = require'sys.io'.read_file{file=require'sys.mgr'.get_db_path()..hid..require'sys.mgr'.get_db_exname(),key=require"sys.mgr".get_db_key()};
-	md = require'sys.mgr.ifo'.new(md);
+	md = IFO.new(md);
 	if not require'sys.Group'.Class:is_class(md) then return end
 	md:ask_id();
 	push_item(md);
@@ -211,7 +213,7 @@ function download(t)
 		cbf = function(hid)
 			if not hid then require'sys.cbf'.callf(t.cbf) return end
 			local it = require'sys.io'.read_file{file=require'sys.mgr'.get_db_path()..hid..require'sys.mgr'.get_db_exname(),key=require"sys.mgr".get_db_key()}
-			it = require'sys.mgr.ifo'.new(it);
+			it = IFO.new(it);
 			if require'sys.Group'.Class:is_class(it) then 
 				if t.open then set(it) end
 				it:download{update=t.update} 
