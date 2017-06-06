@@ -16,7 +16,7 @@ local APPOINT = iup.button{title="Appoint",size="50x15"};
 local DLG = iup.dialog{
 	title = "Line";
 	margin = "5x5";
-	size = "320x";
+	size = "480x";
 	iup.vbox{
 		iup.hbox{PT,PTX,PTx,PTY,PTy,PTZ,PTz,APPOINT};
 		-- iup.hbox{CKALL,iup.fill{},Apply,Modify,Cancel};

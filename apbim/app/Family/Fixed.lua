@@ -18,7 +18,7 @@ require"sys.Entity".Class:met(Class);
 
 
 function Class:on_edit()
-	-- require"app/Graphics/line_dlg".pop();
+	require"app/Family/Fixed_dlg".pop();
 end
 
 -- function Class:on_draw(arg)
