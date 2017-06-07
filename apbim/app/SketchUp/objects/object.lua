@@ -50,6 +50,7 @@ function Class:init_lines_surfaces(surfaces)
 	for k,v in ipairs(self.points) do 
 		table.insert(surface.points,{ rl,gl,bl,m,n,v.x,v.y,v.z})
 	end
+	self:add_pt(self.points[1])
 	for k,v in ipairs (self.face_outer) do 
 		if  k~= #self.face_outer then 
 			table.insert(surface.lines,{self.face_outer[k],self.face_outer[k+1]})
@@ -84,6 +85,7 @@ function Class:init_surfaces()
 		table.insert(surface.points,{ rf,gf,bf,m,n,v.x,v.y,v.z})
 		-- table.insert(surface.outer,k)
 	end
+	self:add_pt(self.points[1])
 	surface.outer = self.face_outer
 	surface.inners = self.face_inners
 	--save_obj_.add_face_surface(surface)
@@ -119,6 +121,7 @@ function Class:on_draw(arg)
 		obj.surfaces =  self:init_surfaces() or {}
 		return obj
 	end
+	-- require 'sys.table'.totrace(obj)
 	if type(fs[arg.mode])=='function' then return fs[arg.mode]() end
 end
 
