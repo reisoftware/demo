@@ -167,7 +167,7 @@ function create(arg)
 	
 	local function run()
 		it_=it_+1;
-		update();
+		-- update();
 	end
 	
 	function cancel_.action()
