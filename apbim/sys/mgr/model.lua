@@ -85,13 +85,13 @@ end
 
 function get_item(k,v)
 	local it = MGRDB.get_item(k,v);
-	if require'sys.Item'.Class:is_class(it) and k==it:get_id() then MGRDB.set_item(it); return it; end
+	if ITEM.Class:is_class(it) and k==it:get_id() then MGRDB.set_item(it); return it; end
 	
 	it = MGRZIP.get_item(k); 
-	if require'sys.Item'.Class:is_class(it) and k==it:get_id() then MGRDB.set_item(it); return it; end
+	if ITEM.Class:is_class(it) and k==it:get_id() then MGRDB.set_item(it); return it; end
 	
 	-- it = require'sys.mgr.version'.get_item(k,v); 
-	-- if require'sys.Item'.Class:is_class(it) and k==it:get_id() then MGRDB.set_item(it); return it; end
+	-- if ITEM.Class:is_class(it) and k==it:get_id() then MGRDB.set_item(it); return it; end
 	
 	return nil;
 end
