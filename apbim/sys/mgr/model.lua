@@ -1,5 +1,12 @@
 _ENV = module(...,ap.adv)
 
+local ZIP = require'sys.zip'
+local STR = require'sys.str'
+local ITEM = require'sys.Item'
+local GROUP = require'sys.Group'
+local MGR = require'sys.mgr'
+local MGRDB = require'sys.mgr.db'
+local MGRZIP = require'sys.mgr.zip'
 local IFO = require'sys.mgr.ifo'
 
 local md_ = nil;
@@ -8,28 +15,28 @@ local md_ = nil;
 
 function init()
 	md_ = nil;
-	require'sys.mgr.zip'.init();
-	require'sys.mgr.db'.init();
+	MGRZIP.init();
+	MGRDB.init();
 end
 
 function get()
-	if not require'sys.Group'.Class:is_class(md_) then md_ = require'sys.Group'.Class:new() end
+	if not GROUP.Class:is_class(md_) then md_ = GROUP.Class:new() end
 	md_:ask_id();
-	-- require'sys.mgr.db'.push_item(md_);
+	-- MGRDB.push_item(md_);
 	return md_;
 end
 
 function set(md)
-	if not require'sys.Group'.Class:is_class(md) then return end
+	if not GROUP.Class:is_class(md) then return end
 	md_ = md;
 end
 
 function trace()
 	local md = get();
-	require'sys.str'.totrace('model.mgrid = '..(md.mgrid or 'nil'));
+	STR.totrace('model.mgrid = '..(md.mgrid or 'nil'));
 	local ids = md:get_ids() or {};
 	for k,v in pairs(ids) do
-		require'sys.str'.totrace(k..' = '..v);
+		STR.totrace(k..' = '..v);
 	end
 end
 
@@ -59,32 +66,32 @@ end
 
 function push_item(it)
 	it = IFO.new(it);
-	local id = require'sys.mgr.db'.push_item(it);
+	local id = MGRDB.push_item(it);
 	if id==get():get_id() then set(it) else get():add_id(id); end
 	return id;
 end
 
 function add_item(it)
-	require"sys.Item".Class.add(it);
+	ITEM.Class.add(it);
 	return push_item(it);
 end
 
 function del_item(it)
-	require"sys.Item".Class.del(it);
+	ITEM.Class.del(it);
 	return push_item(it);
 end
 
 --------------------------------------------------------
 
 function get_item(k,v)
-	local it = require'sys.mgr.db'.get_item(k,v);
-	if require'sys.Item'.Class:is_class(it) and k==it:get_id() then require'sys.mgr.db'.set_item(it); return it; end
+	local it = MGRDB.get_item(k,v);
+	if require'sys.Item'.Class:is_class(it) and k==it:get_id() then MGRDB.set_item(it); return it; end
 	
-	it = require'sys.mgr.zip'.get_item(v); 
-	if require'sys.Item'.Class:is_class(it) and k==it:get_id() then require'sys.mgr.db'.set_item(it); return it; end
+	it = MGRZIP.get_item(k); 
+	if require'sys.Item'.Class:is_class(it) and k==it:get_id() then MGRDB.set_item(it); return it; end
 	
 	-- it = require'sys.mgr.version'.get_item(k,v); 
-	-- if require'sys.Item'.Class:is_class(it) and k==it:get_id() then require'sys.mgr.db'.set_item(it); return it; end
+	-- if require'sys.Item'.Class:is_class(it) and k==it:get_id() then MGRDB.set_item(it); return it; end
 	
 	return nil;
 end
@@ -121,8 +128,8 @@ function get_undeleted()
 	local all = get():get_ids();
 	local run = require"sys.progress".create{title="Calculating ... ",count=require"sys.table".count(all),time=0.1,update=false};
 	for k,v in pairs(all) do
-		local it = require'sys.mgr'.get_item(k,v);
-		if not require"sys.Item".Class.is_deleted(it) then 
+		local it = MGR.get_item(k,v);
+		if not ITEM.Class.is_deleted(it) then 
 			its[k] = it;
 		end
 		run();
@@ -146,25 +153,30 @@ end
 --------------------------------------------------------
 
 function open()
-	local file = require'sys.mgr.zip'.get_file();
+	local file = MGRZIP.get_file();
 	if not file then return end
-	local id = require'sys.zip'.read{zip=require'sys.mgr.zip'.get_file(),file=require'sys.mgr'.get_zip_model()..require'sys.mgr'.get_zip_index()..require'sys.mgr'.get_db_exname()};
-	local md = require'sys.mgr.zip'.get_item(id);
-	if require'sys.Group'.Class:is_class(md) then require'sys.mgr.model'.set(md) else get():set_id(id) end
+	local id = ZIP.read{zip=MGRZIP.get_file(),file=MGR.get_zip_model()..MGR.get_zip_index()..MGR.get_db_exname()};
+	local md = MGRZIP.get_item(id);
+	if GROUP.Class:is_class(md) then require'sys.mgr.model'.set(md) else get():set_id(id) end
 end
 
 function save()
-	local file = require'sys.mgr.zip'.get_file();
+	local file = MGRZIP.get_file();
 	if not file then return end
-	local ar = require'sys.zip'.open(file);
+	local ar = ZIP.open(file);
 	if not ar then return end
 	local md = require'sys.mgr.model'.get();
 	md:ask_id();
 	md:commit{};
 	md:save{archive=ar};
-	-- require'sys.zip'.add(ar,require'sys.mgr'.get_zip_model()..require'sys.mgr'.get_zip_index()..require'sys.mgr'.get_db_exname(),'string','return "'..require'sys.mgr'.get_model_id()..'"\n');
-	require'sys.zip'.add(ar,require'sys.mgr'.get_zip_model()..require'sys.mgr'.get_zip_index()..require'sys.mgr'.get_db_exname(),'string','return "'..require'sys.mgr.version'.get_hid(require'sys.mgr'.get_model_id())..'"\n');
-	require'sys.zip'.close(ar);
+	-- ZIP.add(ar,MGR.get_zip_model()..MGR.get_zip_index()..MGR.get_db_exname(),'string','return "'..MGR.get_model_id()..'"\n');
+	local zip_model = MGR.get_zip_model()
+	local zip_index = MGR.get_zip_index()
+	local db_exname = MGR.get_db_exname()
+	local text = 'return "'..md:get_id()..'"\n'
+	-- local text = 'return "'..require'sys.mgr.version'.get_hid(MGR.get_model_id())..'"\n'
+	ZIP.add(ar,zip_model..zip_index..db_exname,'string',text);
+	ZIP.close(ar);
 end
 
 function commit()
@@ -179,9 +191,9 @@ function update()
 	if not gid then return end;
 	local hid = require'sys.mgr.version'.update_item(gid);
 	if not hid then return end;
-	local md = require'sys.io'.read_file{file=require'sys.mgr'.get_db_path()..hid..require'sys.mgr'.get_db_exname(),key=require"sys.mgr".get_db_key()};
+	local md = require'sys.io'.read_file{file=MGR.get_db_path()..hid..MGR.get_db_exname(),key=require"sys.mgr".get_db_key()};
 	md = IFO.new(md);
-	if not require'sys.Group'.Class:is_class(md) then return end
+	if not GROUP.Class:is_class(md) then return end
 	md:ask_id();
 	push_item(md);
 end
@@ -212,9 +224,9 @@ function download(t)
 		hid = hid;
 		cbf = function(hid)
 			if not hid then require'sys.cbf'.callf(t.cbf) return end
-			local it = require'sys.io'.read_file{file=require'sys.mgr'.get_db_path()..hid..require'sys.mgr'.get_db_exname(),key=require"sys.mgr".get_db_key()}
+			local it = require'sys.io'.read_file{file=MGR.get_db_path()..hid..MGR.get_db_exname(),key=require"sys.mgr".get_db_key()}
 			it = IFO.new(it);
-			if require'sys.Group'.Class:is_class(it) then 
+			if GROUP.Class:is_class(it) then 
 				if t.open then set(it) end
 				it:download{update=t.update} 
 			end

@@ -34,7 +34,8 @@ end
 
 function get_item(id)
 	if not id or not get_file() or not require'sys.io'.is_there_file(get_file()) then return nil end
-	local it = require'sys.zip'.read{zip=get_file(),file=require'sys.mgr'.get_zip_model()..id..require'sys.mgr'.get_db_exname(),key=require'sys.mgr'.get_db_key()};
+	-- local it = require'sys.zip'.read{zip=get_file(),file=require'sys.mgr'.get_zip_model()..id..require'sys.mgr'.get_db_exname(),key=require'sys.mgr'.get_db_key()};
+	local it = require'sys.zip'.read{zip=get_file(),file=require'sys.mgr'.get_zip_model()..id..require'sys.mgr'.get_db_exname()};
 	if type(it)~='table' then return nil; end
 	it = require'sys.mgr.ifo'.new(it);
 	return it;

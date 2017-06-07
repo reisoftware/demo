@@ -289,9 +289,11 @@ function Class:save(t)
 	if self:check_repeat{list=repeat_list,id=self:get_id()} then return end
 	
 	if not t.archive then return end
-	local hid = require'sys.mgr.version'.push_item(self);
-	if self:is_saved() and require'sys.zip'.get_fdx(t.archive,require'sys.mgr'.get_zip_model()..hid..require'sys.mgr'.get_db_exname()) then return true end
-	require'sys.zip'.add(t.archive,require'sys.mgr'.get_zip_model()..hid..require'sys.mgr'.get_db_exname(),'file',require'sys.mgr'.get_db_path()..hid..require'sys.mgr'.get_db_exname());
+	-- local hid = require'sys.mgr.version'.push_item(self);
+	local gid = self:get_id();
+	if self:is_saved() and require'sys.zip'.get_fdx(t.archive,require'sys.mgr'.get_zip_model()..gid..require'sys.mgr'.get_db_exname()) then return true end
+	-- require'sys.zip'.add(t.archive,require'sys.mgr'.get_zip_model()..gid..require'sys.mgr'.get_db_exname(),'file',require'sys.mgr'.get_db_path()..gid..require'sys.mgr'.get_db_exname());
+	require'sys.zip'.add(t.archive,require'sys.mgr'.get_zip_model()..gid..require'sys.mgr'.get_db_exname(),'string','return '..require'sys.table'.tostr(self));
 	self:set_saved();
 	return true;
 end

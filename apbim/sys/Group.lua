@@ -1,5 +1,7 @@
 _ENV = module(...,ap.adv)
 
+local MGR = require'sys.mgr'
+
 Class = {
 	Classname = "sys/Group";
 	-- mgrids = {[gid]=true,...};
@@ -13,8 +15,8 @@ function Class:add_id(id)
 	if type(self)~="table" then return nil end
 	if self.mgrid==id then return nil end
 	if type(self.mgrids)~="table" then self.mgrids={} end
-	-- if self.mgrids[id] then return self end
-	self.mgrids[id] = require'sys.mgr.version'.get_hid(id) or true;
+	if type(self.mgrids[id])~="table" then self.mgrids[id]={} end
+	self.mgrids[id].Classname = MGR.get_item(id).Classname;
 	self:modify()
 	return self;
 end
@@ -44,7 +46,7 @@ end
 ----
 
 function Class:add_curs()
-	local ents = require"sys.mgr".curs();
+	local ents = MGR.curs();
 	if type(ents)~="table" then return self end
 	for k,v in pairs(ents) do
 		self:add_id(k);
@@ -54,10 +56,10 @@ function Class:add_curs()
 end
 
 function Class:add_scene_all()
-	local ents = require"sys.mgr".get_scene_all();
+	local ents = MGR.get_scene_all();
 	if type(ents)~="table" then return self end
 	for k,v in pairs(ents) do
-		v = require"sys.mgr".get_table(k,v);
+		v = MGR.get_table(k,v);
 		self:add_id(k);
 	end
 	self:modify();
@@ -65,10 +67,10 @@ function Class:add_scene_all()
 end
 
 function Class:add_model_all()
-	local ents = require"sys.mgr".get_all();
+	local ents = MGR.get_all();
 	if type(ents)~="table" then return self end
 	for k,v in pairs(ents) do
-		v = require"sys.mgr".get_table(k,v);
+		v = MGR.get_table(k,v);
 		if require'sys.Entity'.Class:is_class(v) then self:add_id(k) end
 	end
 	self:modify();
@@ -93,7 +95,7 @@ function loop(t)
 	if type(t.group.mgrids)~="table" then return end
 	local run = require"sys.progress".create{title="Loop Group",count=require"sys.table".count(t.group.mgrids),time=0.1};
 	for k,v in pairs(t.group.mgrids) do
-		v = require"sys.mgr".get_table(k,v);
+		v = MGR.get_table(k,v);
 -- require'sys.str'.totrace(k);
 		if v and not v:is_deleted() and not t.group:check_repeat{list=repeat_list,id=v.mgrid} then
 			if Class:is_class(v) then 
@@ -109,7 +111,7 @@ end
 
 
 function draw(gp,sc)
-	require"sys.Group".loop{group=gp,cbf=function(it)require"sys.mgr".draw(it,sc)end};
+	require"sys.Group".loop{group=gp,cbf=function(it)MGR.draw(it,sc)end};
 end
 
 
@@ -127,7 +129,7 @@ end
 -- t={scene=}
 function Class:show(t)
 	if type(t)~="table" then t={} end
-	local sc = t.scene or require"sys.mgr".get_cur_scene() or require"sys.mgr".new_scene{name=t.name};
+	local sc = t.scene or MGR.get_cur_scene() or MGR.new_scene{name=t.name};
 	draw(self,sc);
 	-- self:select_entities{light=true,redraw=true};
 	local sct = get_scene_t(sc);
@@ -135,22 +137,22 @@ function Class:show(t)
 	require'sys.mgr'.select_none{redraw=true};
 	set_scene_t(sc,sct);
 	self:select_marks(true);
-	require"sys.mgr".update(sc);
+	MGR.update(sc);
 end
 
 -- t={name=}
 function Class:open(t)
 	if type(t)~="table" then t={} end
 	local name = t.name or self.Name;
-	require"sys.mgr".close_scene{name=name};
-	local sc = require"sys.mgr".new_scene{name=name,view=self};
+	MGR.close_scene{name=name};
+	local sc = MGR.new_scene{name=name,view=self};
 	self:show{scene=sc,name=t.name};
 end
 --]]
 
 function get_view(t)
 	t = t or {}
-	local sc = require"sys.mgr".get_cur_scene();
+	local sc = MGR.get_cur_scene();
 	if not sc then return end
 	local smd = require"sys.Group".Class:new();
 	smd:set_name(t.Name);
@@ -158,11 +160,11 @@ function get_view(t)
 	smd:set_marks(sc);
 	smd:set_states(sc);
 	smd:add_scene_all();
-	require"sys.mgr".add(smd);
+	MGR.add(smd);
 	return smd
 end
 function Class:set_view(sc)
-	local sc = sc or require"sys.mgr".get_cur_scene();
+	local sc = sc or MGR.get_cur_scene();
 	if not sc then return end
 	-- local smd = require"sys.Group".Class:new();
 	-- self:set_name(t.Name);
@@ -170,7 +172,7 @@ function Class:set_view(sc)
 	self:set_marks(sc);
 	self:set_states(sc);
 	self:add_scene_all();
-	-- require"sys.mgr".add(smd);
+	-- MGR.add(smd);
 	return self
 end
 
