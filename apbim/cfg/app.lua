@@ -1,5 +1,5 @@
 return  {
-	'app.BIM.main';
+	-- 'app.BIM.main';
 	'app.Family.main';
 	'app.Project.main';
 	'app.View.main';

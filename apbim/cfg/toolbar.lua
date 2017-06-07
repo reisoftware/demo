@@ -2,11 +2,6 @@ return {
 	{
 		bmpname = 'cfg/bmp/toolbar1.bmp';
 		{
-			name = 'New BIM Project';
-			keyword = 'AP.BIM.New',
-			image = 1;
-		};
-		{
 			name = 'New Project';
 			keyword = 'AP.Project.New',
 			image = 1;

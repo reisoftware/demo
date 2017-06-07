@@ -3,15 +3,6 @@ return  {
   	 	name = "File";
   	 	subs = {
   	 	 	{
-  	 	 	 	name = "BIM";
-				subs = {
-					{
-						name = "New";
-						keyword ='AP.BIM.New';
-					};
-				};
-  	 	 	};
-  	 	 	{
   	 	 	 	name = "Project";
 				subs = {
 					{
