@@ -74,7 +74,7 @@ function get_item(k,v)
 end
 
 function get_all()
-	return md_.get_undeleted();
+	return md_.get_all();
 end
 
 function get_scene_all(sc)
