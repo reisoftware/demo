@@ -33,7 +33,7 @@ function push_item(it)
 	local old = db_[it:get_id()];
 	if old and it:get_time() < old:get_time() then return old:get_id(); end
 	set_item(it);
-	require'sys.mgr.version'.push_item(it);
+	-- require'sys.mgr.version'.push_item(it);
 	return it:get_id();
 end
 

@@ -149,7 +149,7 @@ return {
 		};
 		{
 			name = 'Show Model';
-			keyword = 'AP.Model.Show.All',
+			keyword = 'AP.Model.Show.Rendering',
 			image = 32;
 		};
 		{
