@@ -79,7 +79,7 @@ function open_model(file)
 	for i=1,#revit_model do		
 		add_obj(revit_model[i],mgr_objs);
 	end			
-	require"sys.mgr".update();	
+	-- require"sys.mgr".update();	
 	revit_model = nil;	
 end
 

@@ -99,6 +99,7 @@ function Class:init_surfaces(data,line)
 			end
 			
 		end
+		self:add_pt{x = surface.points[1][6],y =surface.points[1][7] ,z = surface.points[1][8]}
 		table.insert(surfaces,surface)
 	end
 	return surfaces
@@ -135,5 +136,6 @@ function Class:on_draw(arg)
 		obj.surfaces =  self:init_surfaces(self.data) or {}
 		return obj
 	end
+	-- require 'sys.table'.totrace(obj)
 	if type(fs[arg.mode])=='function' then return fs[arg.mode]() end
 end

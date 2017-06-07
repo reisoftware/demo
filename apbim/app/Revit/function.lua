@@ -16,6 +16,7 @@ function open_revit(sc)
 	sc = sc or require"sys.mgr".new_scene();
 	local file = require"app.Revit.iupex".open_file_dlg("*");
 	if file then 
+		print(file)
 		require"app.Revit.import".open_model(file);
 	end 
 end
