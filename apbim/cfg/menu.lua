@@ -283,6 +283,15 @@ return  {
 					};
 				};
   	 	 	};
+  	 	 	{
+  	 	 	 	name = "Dat";
+				subs = {
+					{
+						name = "Append";
+						keyword ='AP.Dat.Append';
+					};
+				};
+  	 	 	};
   	 	};
   	};
  	{
